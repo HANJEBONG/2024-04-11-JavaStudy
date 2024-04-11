@@ -21,16 +21,21 @@
             1) 파일
             2) RDBMS => 오라클
  */
+import java.io.*;
 public class MainClass {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception{
 		// TODO Auto-generated method stub
-		for(int i=1;i<=10;i++)
+		FileReader fr=new FileReader("c:\\javaDev\\movie.txt");
+		int i=0;
+		StringBuffer data=new StringBuffer();
+		while((i=fr.read())!=-1) // 파일 끝일때 종료 => -1 EOF
 		{
-			System.out.println("Hello~~~~");
-			////////////////////
-			////////////////////
+			data.append((char)i);
 		}
+		fr.close();
+		System.out.println(data);
+		
 	}
 
 }
