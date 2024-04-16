@@ -21,9 +21,9 @@ public class 변수_7 {
 		
 		char c1='A';
 		char c2='B';
-		char temp=c1;
+		char _temp=c1;
 		c1=c2;
-		c2=temp;
+		c2=_temp;
 		
 
 	}
