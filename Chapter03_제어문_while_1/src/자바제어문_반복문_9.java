@@ -19,10 +19,12 @@
  *        => 1부터 입력한 정수까지 합을 구해서 출력
  *               --------
  */
-import java.util.Scanner;
+import java.util.*;
+import java.io.*;
+import java.io.IOException;
 public class 자바제어문_반복문_9 {
 
-	public static void main(String[] args) throws Exception{
+	public static void main(String[] args) throws java.io.IOException{
 		// TODO Auto-generated method stub
 		Runtime.getRuntime().exec("C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
 				+"http://youtube.com/enbed/smdmEhkIRVc\\u0026pp=ygUJ67Ck7JaR6rCx");
