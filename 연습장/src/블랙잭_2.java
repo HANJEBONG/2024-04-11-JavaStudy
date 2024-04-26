@@ -9,10 +9,11 @@ public class 블랙잭_2 {
 		int score=0;
 		int com=0;
 		char user=' ';
+		boolean ext=true;
 
 		
 		System.out.println("블랙잭 게임 스타트!!");
-		for(;;) {
+		while(ext) {
 			
 		
 			

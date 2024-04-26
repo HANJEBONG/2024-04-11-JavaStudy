@@ -12,7 +12,12 @@ public class 문제_2 {
 
 
 
-int[] work= {50,45,35,12,70};
+        int[] work=new int[5];
+        for(int i=0;i<work.length;i++) {
+        	work[i]=(int)(Math.random()*100)+1;
+        	
+        }
+        
 		int total=0;
 		int max=work[0];
 		int min=work[0];
