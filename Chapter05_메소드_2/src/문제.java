@@ -69,13 +69,94 @@ public class 문제 {
 		System.out.println();
 		System.out.println(new StringBuffer(msg).reverse());
 	}
-	static boolean isYear(int year) {
+	static String 문제_8(int[] arr) {
+		String score="";
+		int total=0;
+		for(int i=0;i<arr.length;i++) {
+			total+=arr[i];
+		}
+		double avg=total/(double)(arr.length);
+		switch((int)avg/10) {
+		case 10: case 9:
+			score="A학점";
+			break;
+		case 8:
+			score="B학점";
+			break;
+		case 7:
+			score="C학점";
+			break;
+		case 6:
+			score="D학점";
+			break;
+		default:
+			score="F학점";
+		}
 		
+		return score;
 	}
-	
+	static boolean 문제_9(int year) {
+		boolean bCheck=false;
+		if((year%4==0 && year%100!=0) || year%400==0) {
+			bCheck=true;
+		}
+		return bCheck;
+	}
+	static void 문제_10(int a, int b) {
+		if(a>b) {
+			System.out.println(a);
+		}else if(a<b) {
+			System.out.println(b);
+		}else {
+			System.out.println("잘못된 입력입니다");
+		}
+	}
+	static String 문제_11(int num) {
+		String a="";
+		if(num%2==0) {
+			a="짝수입니다";
+		}else if(num%2!=0) {
+			a="홀수입니다";
+		}else {
+			a="잘못된 입력입니다";
+		}
+		return a;
+	}
+	static String 문제_12(int num) {
+		String num3="";
+		if(num%3==0) {
+			num3="3의 배수입니다";
+		}else if(num%3!=0) {
+			num3="3의 배수가 아닙니다";
+		}else if(-3<num&&num<3){
+			num3="지금 뭐하는 거냥께?";
+		}else {
+			num3="잘못된 입력입니다";
+		}
+		return num3;
+	}
+	static String 문제_13() {
+		String a="";
+		Scanner scan=new Scanner(System.in);
+		System.out.print("년도 입력:");
+		int year=scan.nextInt();
+		System.out.print("달 입력:");
+		int month=scan.nextInt();
+		System.out.print("일 입력:");
+		int day=scan.nextInt();
+		int date=0;
+		for(int i=1;i<=year-1;i++) {
+		    if((year%4==0&&year%100!=0)||year%400==0) {
+			
+		    }
+		}
+		
+		return a;
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Scanner scan=new Scanner(System.in);
+		System.out.println("문자열 입력");
 		String srt=scan.next();
 		문제_7(srt);
 //		String a= "ABDGadf";
@@ -89,7 +170,12 @@ public class 문제 {
 //	    
 //	    String a=scan.next();
 //	    System.out.println(문제_6(a));
-	    
+		boolean year=문제_9(2024);
+	    System.out.println(year);
+	    int a=scan.nextInt();
+	    int b=scan.nextInt();
+	    문제_10(a,b);
+	    System.out.println(문제_11(12));
 
 	}
 
