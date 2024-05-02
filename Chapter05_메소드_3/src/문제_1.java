@@ -5,7 +5,7 @@
     출력
 */
 import java.util.Scanner;
-public class 문제 {
+public class 문제_1 {
 	static int 정수_입력() {
 		Scanner scan=new Scanner(System.in);
 		System.out.println("0~32767까지의 정수 입력:");
