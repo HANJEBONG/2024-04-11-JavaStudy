@@ -60,7 +60,7 @@ public class 메소드정리_4 {
 			int s=0,b=0;
 			for(int i=0;i<com.length;i++) {
 				for(int j=0;j<user.length;j++) {
-					if(com[i]==com[j]) {
+					if(com[i]==user[j]) {
 						if(i==j) {
 							s++;
 						}else {
@@ -72,7 +72,9 @@ public class 메소드정리_4 {
 			// 힌트
 			System.out.printf("Input numer:%d,Result: %dS - %dB\n",input,s,b);
 			// 종료
+			
 			if(s==3) {
+				System.out.println("정답은"+Arrays.toString(com));
 				System.out.println("당신의 승리입니다.");
 				break;
 			}
