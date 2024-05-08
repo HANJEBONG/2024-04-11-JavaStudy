@@ -17,7 +17,7 @@ class Recipe3{
 	String[] source;
 	String[] make;
 }
-class Member{
+class Member45{
 	String id;
 	boolean idCheck;
 	String pwd;
