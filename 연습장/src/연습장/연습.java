@@ -1,5 +1,10 @@
 package 연습장;
-
+//class Main{
+//	final int a;
+//	Main(){
+//		a=10;
+//	}
+//}
 public class 연습 {
 
 	public static void main(String[] args) {
@@ -19,17 +24,18 @@ public class 연습 {
 //		b="앙 기모뤼";
 //		System.out.println(a);
 //		System.out.println(b);
-		String[] a={"앙 기모뤼","앙 기모띠"};
-		a=new String[2];
-				
-		
-		String[] b;
-		b=a;
-		b[1]="기모띠"; 
-		
-		System.out.println(a);
-		System.out.println(b);
-		
+//		String[] a={"앙 기모뤼","앙 기모띠"};
+//		a=new String[2];
+//				
+//		
+//		String[] b;
+//		b=a;
+//		b[1]="기모띠"; 
+//		
+//		System.out.println(a);
+//		System.out.println(b);
+		String[] a={"1","e"};
+		System.out.println(a.toString().charAt(1));
 
 	}
 
