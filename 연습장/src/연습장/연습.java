@@ -34,9 +34,25 @@ public class 연습 {
 //		
 //		System.out.println(a);
 //		System.out.println(b);
-		String[] a={"1","e"};
-		System.out.println(a.toString().charAt(1));
-
-	}
+//		String[] a={"1","e"};
+//		System.out.println(a.toString().charAt(1));
+		
+		
+		    	String[] strArray = { "10" , "2a" };
+		        int value = 0;
+		        for(int i = 0; i <= 2; i++ ){
+		        	try{
+		            	value = Integer.parseInt(strArray[i]);
+		            } catch(ArrayIndexOutOfBoundsException e){
+		            	System.out.println("인덱스를 초과했음");
+		            } catch(NumberFormatException e) {
+		            	System.out.println("숫자로 변환할 수 없음");
+		            } finally {
+		            	System.out.println(value);
+		            }
+		        }
+		 String a="감자조림";
+		 System.out.println(a.startsWith("감자"));
+	 }
 
 }
