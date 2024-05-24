@@ -82,28 +82,28 @@ import java.util.Arrays;
  *                                => 기본형 데이터는 사용이 불가능 하다
  *                                   --------- 각 데이터형마다 클래스를 지원 (Wrapper)
  *          ArrayList : 중복된 데이터가 있는 경우 => 순서가 있어서 인덱스 자동 조절이 된다 (인덱스)
- *               => 추가    ==> add()
+ *               ***=> 추가    ==> add()
  *               => 수정    ==> set()
  *               => 삭제    ==> remove()
- *               => 전체 삭제 => clear()
- *               => 저장 갯수 => size()
- *               => 읽기    ==> get()
+ *               ***=> 전체 삭제 => clear()
+ *               ***=> 저장 갯수 => size()
+ *               ***=> 읽기    ==> get()
  *               => ArrayList가 여러개 있는 경우
  *                 = retainAll() => 같은 값(교집합)
  *                 = removeAll() => 차집합 => 한쪽에 없는 데이터
  *                 = addAll() => 전체 데이터 복사
  *                 = subList() => 부분 데이터 복사
  *          HashSet : 중복이 없든 데이터 => 순서가 없다 (출력시에 원하는 순서로 출력이 안되는 경우도 있다) => 중복제거 => list로 변경 => 구분자 => 자체 값
- *             => add()
- *             => clear()
+ *             ***=> add()
+ *             ***=> clear()
  *             => iterater()
  *          HashMap
  *          ---------------------
  *       java.text : 변환 (숫자,날짜변환)
  *          DecimalFormat : format()
- *              DecmalFormat df=new DecimalFormat("###,###,###"); // 오라클 999,999,999
+ *              ***DecmalFormat df=new DecimalFormat("###,###,###"); // 오라클 999,999,999
  *          SimpleDateFomat : format()
- *              SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+ *              ***SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
  *                년도 => yyyy
  *                월  => MM/M
  *                일  => dd/d
