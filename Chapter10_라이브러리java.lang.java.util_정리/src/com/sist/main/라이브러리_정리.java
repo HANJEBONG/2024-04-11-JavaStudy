@@ -1,6 +1,5 @@
 package com.sist.main;
 
-import java.util.Arrays;
 
 /*
  *    자바에서 지원하는 클래스의 집합 => 라이브러리 (완제품 => 특별한 경우가 아니면 그대로 사용)
