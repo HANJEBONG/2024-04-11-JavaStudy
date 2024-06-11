@@ -54,10 +54,12 @@ public class 연습 {
 //		        }
 //		String a="감자조림";
 //		System.out.println(a.startsWith("자"));
-		List list=new ArrayList();
-		
-		System.out.println(list.add("감자"));
-		System.out.println(list.add(5));
+//		List list=new ArrayList();
+//		
+//		System.out.println(list.add("감자"));
+//		System.out.println(list.add(5));
+		String a="   짜장 탕수만두   ";
+		System.out.println(a.trim());
 	 }
 
 }
