@@ -6,6 +6,7 @@ package 연습장;
 //	}
 //}
 import java.util.*;
+import java.text.*;
 public class 연습 {
 
 	public static void main(String[] args) {
@@ -60,6 +61,14 @@ public class 연습 {
 //		System.out.println(list.add(5));
 		String a="   짜장 탕수만두   ";
 		System.out.println(a.trim());
+		Calendar cal=Calendar.getInstance();
+		int year=2024;
+		int month=6;
+		int date=13;
+        cal.set(year, month-1, date);
+		int dayOfWeekNumber = cal.get(Calendar.DAY_OF_WEEK);
+		System.out.println(dayOfWeekNumber);
+		//출처: https://hianna.tistory.com/610 [어제 오늘 내일:티스토리]
 	 }
 
 }

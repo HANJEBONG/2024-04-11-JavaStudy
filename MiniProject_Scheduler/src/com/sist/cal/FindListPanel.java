@@ -5,6 +5,7 @@ package com.sist.cal;
  */   
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -40,12 +41,11 @@ public class FindListPanel extends JPanel{
     	js.setBounds(200,105,300,500);
     	
     	add(js);
-    	// 데이터 저장
-    	FindDAO dao=FindDAO.newInstance();
-    	String findinfo=findTf.getText();
     	
-    	ArrayList<FindVO> list=dao.schduleFindListData();
     	
     	
     }
+   
+	
+
 }
