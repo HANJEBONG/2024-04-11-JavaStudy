@@ -7,6 +7,7 @@ public class WaitRoom extends JPanel{
 	JTextArea ta;
 	JTextField tf;
 	JTable table1,table2;
+	JScrollBar bar;
 	DefaultTableModel model1,model2;
 	
 	public WaitRoom() {
@@ -47,6 +48,7 @@ public class WaitRoom extends JPanel{
 		
 		ta=new JTextArea();
 		JScrollPane js3=new JScrollPane(ta);
+		bar=js3.getVerticalScrollBar();
 		ta.setEditable(false); // 서버에서 보낸값만 출력
 		
 		tf=new JTextField(); // 채팅 보내기
@@ -56,7 +58,7 @@ public class WaitRoom extends JPanel{
 		b3=new JButton("1:1신청");
 		b4=new JButton("정보보기");
 		b5=new JButton("쪽지보내기");
-		b6=new JButton("해병대입대");
+		b6=new JButton("나가기");
 		
 		//배치
 		setLayout(null);

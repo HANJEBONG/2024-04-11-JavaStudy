@@ -3,10 +3,12 @@ import javax.swing.*;
 import java.awt.*;
 public class ControlPanel extends JPanel{
 	CardLayout card=new CardLayout();
-	EmpListPanel ep=new EmpListPanel();
+	HomePanel home=new HomePanel();
+	ChatPanel chatp=new ChatPanel();
 	public ControlPanel() {
 		setBackground(Color.CYAN);
 		setLayout(card);
-		add("EP", ep);
+		add("CHAT",chatp);
+		add("HOME",home);
 	}
 }

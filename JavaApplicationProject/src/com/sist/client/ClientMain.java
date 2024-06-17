@@ -6,32 +6,50 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
+import com.sist.commons.Function;
 import com.sist.dao.*;
 import javax.swing.*;
-public class ClientMain extends JFrame implements ActionListener,MouseListener{
+import java.io.*;
+import java.net.*;
+import java.util.*;
+public class ClientMain extends JFrame implements ActionListener,MouseListener,Runnable{
 	CardLayout card=new CardLayout();
+	MenuPanel mp=new MenuPanel();
 	LoginPanel lp=new LoginPanel();
-	MainPanel mp=new MainPanel();
 	ControlPanel cp=new ControlPanel();
 	JoinPanel jp=new JoinPanel();
 	PostFindFrame post=new PostFindFrame();
 	IdCheckFrame idfrm=new IdCheckFrame();
+	// 네트워크에 필요한 객체
+	Socket s;
+	OutputStream out;
+	BufferedReader in;
+	String myid;
+	/*
+	 * 	1. 클라이언트 : 서버의 정보 (IP,PORT)
+	 * 	-- PORT 는 자동 생성 => 유동이 가능
+	 * 2. 서버 : 클라이언트의 정보
+	 * 		-- PORT/IP을 직접 생성
+	 */
+	// 개인마다 필요한 변수
 	public ClientMain() {
-		setLayout(card);
+		setLayout(null);
 		
-		add("LOGIN",lp);
-		add("MP" , mp);
-		add("JOIN", jp);
+		mp.setBounds(300,15,600,35);
+		add(mp);
+		cp.setBounds(10,60,930,600);
+		add(cp);
+		
 		
 		setTitle("냐옹");
 		setSize(960 , 750);
-		setVisible(true);
+		//setVisible(true);
 		
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		lp.loginBtn.addActionListener(this); // 로그인
 		lp.joinBtn.addActionListener(this); // 회원가입
 		lp.cancelBtn.addActionListener(this); // 종료
-		mp.mp.exitBtn.addActionListener(this);
+		mp.exitBtn.addActionListener(this);
 		jp.b2.addActionListener(this);// 우편번호 검색
 		jp.b4.addActionListener(this);// 취소
 		
@@ -45,6 +63,12 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener{
 		
 		idfrm.b1.addActionListener(this);
 		idfrm.b2.addActionListener(this);
+		
+		mp.exitBtn.addActionListener(this);
+		mp.chatBtn.addActionListener(this);
+		mp.homeBtn.addActionListener(this);
+		
+		cp.chatp.tf.addActionListener(this);
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -121,21 +145,29 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener{
 					JOptionPane.showMessageDialog(this, "비밀번호가 틀리다");
 					lp.pf.setText("");
 					lp.pf.requestFocus();
-				}else if(result.equals("OK")){
-					// 로그인
-					System.out.println("로그인 완료");
-					card.show(getContentPane(),"MP");
+				}else {
+					try {
+						s=new Socket("192.168.0.104",11010); // 조별 사용
+						out=s.getOutputStream();
+						in=new BufferedReader(new InputStreamReader(s.getInputStream()));
+						out.write((Function.LOGIN+"|"+id+"\n").getBytes());
+					} catch (Exception e2) {
+						// TODO: handle exception
+						e2.printStackTrace();
+					}
+					new Thread(this).start();;
 				}
 			}catch(Exception ex) {
 				JOptionPane.showMessageDialog(this, "사번은 정수여야 합니다..");
 				return; // 메소드 종료
 			}
 			
-		}else if(e.getSource()==mp.mp.exitBtn) {
+		}else if(e.getSource()==mp.exitBtn) {
 			dispose();
 			System.exit(0);
 		}else if(e.getSource()==lp.joinBtn) {
-			card.show(getContentPane(),"JOIN");
+			jp.setVisible(true);
+			lp.setVisible(false);
 		}else if(e.getSource()==jp.b2) {
 			for(int i=post.model.getRowCount()-1;i>=0;i--) {
 				post.model.removeRow(i);
@@ -143,7 +175,8 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener{
 			post.tf.setText("");
 			post.setVisible(true);
 		}else if(e.getSource()==jp.b4) {
-			card.show(getContentPane(),"LOGIN");
+			jp.setVisible(false);
+			lp.setVisible(true);
 		}else if(e.getSource()==post.b1||e.getSource()==post.tf) {
 			String dong=post.tf.getText();
 			if(dong.length()<1) {
@@ -186,7 +219,7 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener{
 				jp.nametf.requestFocus();
 				return;
 			}
-			String sex="";
+			String sex=" ";
 			if(jp.rb1.isSelected()) {
 				sex="남자";
 			}else {
@@ -202,8 +235,8 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener{
 				jp.posttf.requestFocus();
 				return;
 			}
-			String addr=jp.addrtf1.getText();
-			if(addr.length()<1) {
+			String addr1=jp.addrtf1.getText();
+			if(addr1.length()<1) {
 				jp.addrtf1.requestFocus();
 				return;
 			}
@@ -226,10 +259,10 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener{
 			vo.setId(id);
 			vo.setPwd(pwd);
 			vo.setName(name);
-			vo.getSex();
+			vo.setSex(sex);
 			vo.setBirthday(birth);
 			vo.setPost(post);
-			vo.setAddr1(addr);
+			vo.setAddr1(addr1);
 			vo.setAddr2(addr2);
 			vo.setEmail(email);
 			vo.setPhone(phone);
@@ -240,10 +273,24 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener{
 			
 			if(res.equals("yes")) {
 				JOptionPane.showMessageDialog(this, "회원가입을 축하합니다...");
-				card.show(getContentPane(), "LOGIN");
+				jp.setVisible(false);
+				lp.setVisible(true);
 			}else {
 				JOptionPane.showMessageDialog(this, "회원가입에 실패했습니다...\n"+res);
 			}
+		}else if(e.getSource()==cp.chatp.tf) {
+			String msg=cp.chatp.tf.getText();
+			if(msg.length()<1) {
+				return;
+			}
+			String color=cp.chatp.box1.getSelectedItem().toString();
+			try
+			{
+				out.write((Function.CHAT+"|"+msg+"|"+color+"\n").getBytes());
+			}catch(Exception ex){}
+			
+			cp.chatp.tf.setText("");
+			cp.chatp.tf.requestFocus();
 		}
 	}
 	@Override
@@ -283,6 +330,47 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener{
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		try {
+			while(true) {
+				String msg=in.readLine();
+				StringTokenizer st=new StringTokenizer(msg,"|");
+				int delimit=Integer.parseInt(st.nextToken());
+				switch(delimit) {
+				case Function.LOGIN:{
+					String[] data= {st.nextToken(),st.nextToken(),st.nextToken()};
+					cp.chatp.model.addRow(data);
+					String admin=st.nextToken();
+					
+					if(!myid.equals(data[0])&&admin.equals("y")) {
+						cp.chatp.box2.addItem(data[0]);
+					}
+				}
+				break;
+				case Function.MYLOG:{
+					myid=st.nextToken();
+					String name=st.nextToken();
+					setTitle(name+"님의 채팅창");
+					lp.setVisible(false);
+					setVisible(true);
+				}
+				break;
+				case Function.CHAT:{
+					String message=st.nextToken();
+					String color=st.nextToken();
+					cp.chatp.initStyle();
+					
+					cp.chatp.append(message, color);
+				}
+				break;
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 }

@@ -1,18 +1,18 @@
 package com.sist.client;
 import javax.swing.*;
 import java.awt.*;
-public class LoginPanel extends JPanel{
+public class LoginPanel extends JFrame{
 	Image back;
 	JLabel idLa,pwdLa;
 	JTextField tf;
 	JPasswordField pf;
 	JButton loginBtn , joinBtn , cancelBtn;
 	// 스킨 => 이미지배경 =>
-	@Override
-	protected void paintComponent(Graphics g) {
-		// TODO Auto-generated method stub
-		g.drawImage(back,0,0,getWidth(),getHeight(),this);
-	}
+//@Override
+//	protected void paintComponent(Graphics g) {
+//		// TODO Auto-generated method stub
+//		g.drawImage(back,0,0,getWidth(),getHeight(),this);
+//	}
 
 	public LoginPanel() {
 		back=Toolkit.getDefaultToolkit().getImage("c:\\javaDev\\back.jpeg");
@@ -45,5 +45,8 @@ public class LoginPanel extends JPanel{
 		
 		p.setBounds(650,620,265,35);
 		add(p);
+		
+		setSize(960, 700);
+		setVisible(true);
 	}
 }

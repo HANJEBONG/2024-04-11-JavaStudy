@@ -9,10 +9,10 @@ public class Server implements Runnable{
 	// 접속 담당
 	private ServerSocket ss;
 	// 포트번호=> 0~ 65535 0~1023
-	private final int PORT=3355;
+	private final int PORT=11010;
 	private MemberDAO dao;
 	// 저장공간 (접속자)
-	private Vector<Client> waitVc=new Vector<Server.Client>();
+	private Vector<Client> waitVc=new Vector<Client>();
 	public Server() {
 		// 시작과 동시에 서버 구동
 		try {
@@ -118,13 +118,56 @@ public class Server implements Runnable{
 						// 3. 개설된 방정보
 					}
 					break;
-					case Function.EXIT:{
-						
+					// 나가기 요청
+					/*
+					 *     로그인
+					 *     ------
+					 *         로그인 하는 사람 => MYLOG
+					 *         로그인 된 사람 => LOGIN
+					 *     나가기
+					 *     --------
+					 *         로그인 하는 사람 => EXIT
+					 *         실제 나가는 사람 => MYEXIT
+					 */
+					case Function.EXIT:{ // 나기기 처리
+						messageALL(Function.EXIT+"|"+id); // 테이블에서 제거
+						messageALL(Function.CHAT+"|[☞알림]"+name+"님이 퇴장하셨습니다");
+						// 남아있는 사람 처리
+						for(Client client:waitVc) {
+							if(client.id.equals(id)) {
+								messageTO(Function.MYEXIT+"|"); // 윈도우창 종료
+								waitVc.remove(client);
+								in.close();
+								out.close();
+							}
+						}
 					}
 					break;
 					case Function.CHAT:{
 						String message=st.nextToken();
-						messageTO(Function.CHAT+"|["+name+"]"+message);
+						messageALL(Function.CHAT+"|["+name+"]"+message);
+					}
+					break;
+					/*
+					 *  클라이언트 : 요청 / 응답 출력
+					 *  서버 : 요청받기
+					 *        응답하기
+					 *        저장하기
+					 *        수정기능
+					 *        삭제기능
+					 *        찾기기능
+					 */
+					case Function.INFO:{
+						String yid=st.nextToken();
+						MemberVO vo=dao.memberInfo2(yid);
+						messageTO(Function.INFO+"|"
+								+vo.getName()+"|"
+								+vo.getSex()+"|"
+								+vo.getAddr1()+"|"
+								+vo.getPhone()+"|"
+								+vo.getContent()+"|"
+								+vo.getEmail());
+						
 					}
 					break;
 					}

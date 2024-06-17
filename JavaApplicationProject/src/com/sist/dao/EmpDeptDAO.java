@@ -4,7 +4,7 @@ import java.sql.*;
 public class EmpDeptDAO {
 	private Connection conn;
 	private PreparedStatement ps;
-	private final String URL="jdbc:oracle:thin:@localhost:1521:XE";
+	private final String URL="jdbc:oracle:thin:@192.168.10.124:1521:XE";
 	private static EmpDeptDAO dao; // 싱글턴
 	
 	// 1. 드라이버 등록
@@ -16,7 +16,7 @@ public class EmpDeptDAO {
 	// 2. 오라클 연결
 	public void getConnection() {
 		try {
-			conn=DriverManager.getConnection(URL,"hr","happy");
+			conn=DriverManager.getConnection(URL,"hr1","happy");
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

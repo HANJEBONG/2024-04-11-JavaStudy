@@ -47,7 +47,7 @@ public class Server implements Runnable{
 	 *                                    3306 => MySQL / MariaDB
 	 */
 	private ServerSocket ss;
-	private final int PORT=11010;
+	private final int PORT=11051;
 	// 클라이언트의 네트워크 정보 저장 => IP , PORT , id , name , sex
 	//                                       --- Oracle 에서 정보를 가지고 온다
 	private Vector<Client> waitVC=new Vector<Client>();
@@ -89,6 +89,7 @@ public class Server implements Runnable{
 		} catch (Exception e) {
 			
 			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 	public static void main(String[] args) {
@@ -113,6 +114,7 @@ public class Server implements Runnable{
 				in=new BufferedReader(new InputStreamReader(s.getInputStream()));
 			} catch (Exception e) {
 				// TODO: handle exception
+				e.printStackTrace();
 			}
 		}
 		// 통신 역할
@@ -129,6 +131,7 @@ public class Server implements Runnable{
 				}
 			} catch (Exception e) {
 				// TODO: handle exception
+				e.printStackTrace();
 			}
 		}
 	}
