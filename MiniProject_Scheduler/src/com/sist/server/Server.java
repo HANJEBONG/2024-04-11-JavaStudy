@@ -1,4 +1,5 @@
 package com.sist.server;
+
 import java.util.*;
 
 import javax.crypto.Cipher;
@@ -8,7 +9,7 @@ import java.lang.module.FindException;
 import java.net.*;
 import com.sist.commons.*;
 import com.sist.dao.*;
-public class ChatServer implements Runnable{
+public class Server implements Runnable{
     /*
      *   1. 회원 관련 => Chatting 
      *   2. 나머지는 => Client에서 => Database
@@ -21,7 +22,7 @@ public class ChatServer implements Runnable{
 	// 데이터베이스 연동 
 	private MemberDAO dao;
 	// 서버가동은 시작과 동시에 처리 
-	public ChatServer()
+	public Server()
 	{
 		try
 		{
@@ -49,7 +50,7 @@ public class ChatServer implements Runnable{
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-        ChatServer server=new ChatServer();
+        Server server=new Server();
         new Thread(server).start();
 	}
 	// 통신 담당 => 클라이언트 1개당 한개씩 연결 => 동시에 프로그램이 작동 => 프로그램안에서 여러개의 프로그램을 동시 작업 => 쓰레드 

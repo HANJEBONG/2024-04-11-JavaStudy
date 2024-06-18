@@ -73,8 +73,9 @@ public class Server implements Runnable{
 			// 변수 초기화
 			try {
 				this.s=s;
-				out=s.getOutputStream();
 				in=new BufferedReader(new InputStreamReader(s.getInputStream()));
+				out=s.getOutputStream();
+				
 				// 네트워크 전송 => 1byte로 전송
 				// 값을 받는 경우는 => 2byte로 받는다
 				// 1->2 로 변경해서 받는 클래스 : 필터 스트림
