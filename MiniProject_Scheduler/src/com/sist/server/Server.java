@@ -16,7 +16,7 @@ public class Server implements Runnable{
      */
 	// 서버 가동 
 	private ServerSocket ss;
-	private final int PORT=12345;
+	private final int PORT=11010;
 	// 접속한 클라이언트 정보 
 	private Vector<Client> waitVc=new Vector<Client>();
 	// 데이터베이스 연동 

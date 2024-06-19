@@ -372,7 +372,7 @@ public void actionPerformed(ActionEvent e) {
 				try
 				{
 					//1. 소켓 => 전화 걸기 
-					s=new Socket("192.168.0.102",12345); // 조별 
+					s=new Socket("192.168.0.104",11010); // 조별 
 					out=s.getOutputStream();
 					System.out.println("id="+id);
 					in=new BufferedReader(new InputStreamReader(s.getInputStream()));
