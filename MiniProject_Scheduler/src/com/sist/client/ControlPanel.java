@@ -6,15 +6,16 @@ public class ControlPanel extends JPanel{
 	HomePanel hp;
 	ChatPanel chatP=new ChatPanel();
 	FindPanel fp;
+	ThemaPanel tp;
 	public ControlPanel() {
 		setBackground(Color.CYAN);
 		setLayout(card);
 		hp=new HomePanel(this);
-
+		tp=new ThemaPanel(this);
 		fp=new FindPanel(this);
 		add("HP",hp);
 		add("CHAT",chatP);
-
-		add("FP",fp);
+		add("THEMA",tp);
+		add("FIND",fp);
 	}
 }

@@ -63,12 +63,13 @@ public class FoodDAO {
 		return total;
 	}
 	public ArrayList<FoodVO> foodScoreListData(int page){
+		
 		ArrayList<FoodVO> list=new ArrayList<FoodVO>();
 		try {
 			getConnection();
-			String sql="SELECT name,poster,type,score,num,address "
-					 + "FROM (SELECT name,poster,type,score,rownum as num,address "
-					 + "FROM (SELECT name,poster,type,score,address "
+			String sql="SELECT name,poster,type,score,num,address,fno "
+					 + "FROM (SELECT name,poster,type,score,rownum as num,address,fno "
+					 + "FROM (SELECT name,poster,type,score,address,fno "
 					 + "FROM food_menu_house "
 					 + "ORDER BY score DESC)) "
 					 + "WHERE num BETWEEN ? AND ?";
@@ -87,6 +88,42 @@ public class FoodDAO {
 				vo.setScore(rs.getDouble(4));
 				vo.setNo(rs.getInt(5));
 				vo.setAddress(rs.getString(6));
+				vo.setFno(rs.getInt(7));
+				list.add(vo);
+			}
+			rs.close();
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}finally {
+			disConnection();
+		}
+		return list;
+	}
+	public ArrayList<FoodVO> foodThemaListData(int page,String thema){
+		ArrayList<FoodVO> list=new ArrayList<FoodVO>();
+		try {
+			getConnection();
+			String sql="SELECT name,poster,type,num,address,fno,theme "
+					 + "FROM (SELECT name,poster,type,score,address,fno,theme,rownum as num "
+					 + "FROM (SELECT name,poster,type,score,address,fno,theme "
+					 + "FROM food_menu_house)) "
+					 + "WHERE theme LIKE '%"+thema+"%' AND num BETWEEN ? AND ?";
+			ps=conn.prepareStatement(sql);
+			int rowSize=10;
+			int start=(rowSize*page)-(rowSize-1);
+			int end=rowSize*page;
+
+			ps.setInt(1, start);
+			ps.setInt(2, end);
+			ResultSet rs=ps.executeQuery();
+			while(rs.next()) {
+				FoodVO vo=new FoodVO();
+				vo.setName(rs.getString(1));
+				vo.setPoster(rs.getString(2));
+				vo.setType(rs.getString(3));
+				vo.setAddress(rs.getString(5));
+				vo.setFno(rs.getInt(6));
+				vo.setTheme(rs.getString(7));
 				list.add(vo);
 			}
 			rs.close();

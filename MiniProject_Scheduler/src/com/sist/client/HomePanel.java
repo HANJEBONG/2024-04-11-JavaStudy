@@ -8,6 +8,8 @@ import com.sist.dao.*;
 
 
 import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,9 +32,40 @@ public class HomePanel extends JPanel implements ActionListener,MouseListener{
 		dao=FoodDAO.newInstance();
 		this.cp=cp;
 		setLayout(null);
-
 		
-		String[] col= {"순위","","상호","업종","지역",};
+		la1=new JLabel("평점 TOP 50");
+		la1.setFont(new Font("맑은 고딕",Font.BOLD,30));
+		la1.setBounds(220,50,750,170);
+		add(la1);
+		
+		
+		JPanel t=new JPanel();
+		b3=new JButton("가족외식");
+		b4=new JButton("전통 한국 음식");
+		b5=new JButton("외국 현지 음식");
+		b6=new JButton("일상데이트");
+		b7=new JButton("소개팅");
+		b8=new JButton("점심식사");
+		b9=new JButton("야외테라스");
+		b10=new JButton("특별한 날엔");
+		b3.setFont(new Font("맑은 고딕",Font.BOLD,20));
+		b4.setFont(new Font("맑은 고딕",Font.BOLD,14));
+		b5.setFont(new Font("맑은 고딕",Font.BOLD,14));
+		b6.setFont(new Font("맑은 고딕",Font.BOLD,15));
+		b7.setFont(new Font("맑은 고딕",Font.BOLD,20));
+		b8.setFont(new Font("맑은 고딕",Font.BOLD,20));
+		b9.setFont(new Font("맑은 고딕",Font.BOLD,15));
+		b10.setFont(new Font("맑은 고딕",Font.BOLD,15));
+		t.add(b3);t.add(b4);t.add(b5);t.add(b6);
+		t.add(b7);t.add(b8);t.add(b9);t.add(b10);
+		t.setLayout(new GridLayout(2,4,5,5));
+		t.setBounds(500,20,550,150);
+		
+		add(t);
+		
+		////////////////////////////////////////////////////////// 테마
+		
+		String[] col= {"순위","","상호","업종","지역"};
 		Object[][] row=new Object[0][5];
 		
 		model=new DefaultTableModel(row,col) {
@@ -71,16 +104,25 @@ public class HomePanel extends JPanel implements ActionListener,MouseListener{
 				column.setPreferredWidth(180);
 
 		}
+		////////////////////////////////////////////////////////////////// 스코어 top 50
 		pageLa=new JLabel(curpage+" page / "+totalpage+" pages");
 		b1=new JButton("이전");
 		b2=new JButton("다음");
-		la1=new JLabel("평점이 높은 식당");
+		
 		JPanel p=new JPanel();
 		p.add(b1);
 		p.add(pageLa);
 		p.add(b2);
 		b1.addActionListener(this);
 		b2.addActionListener(this);
+		b3.addActionListener(this);
+		b4.addActionListener(this);
+		b5.addActionListener(this);
+		b6.addActionListener(this);
+		b7.addActionListener(this);
+		b8.addActionListener(this);
+		b9.addActionListener(this);
+		b10.addActionListener(this);
 		p.setBounds(220,650,750,700);
 		add(p);
 		print();
@@ -152,6 +194,40 @@ public class HomePanel extends JPanel implements ActionListener,MouseListener{
 				print();
 				pageLa.setText(curpage+" page / "+totalpage+" pages");
 			}
+	/*
+	 * b3=new JButton("가족외식");
+		b4=new JButton("전통 한국 음식");
+		b5=new JButton("외국 현지 음식");
+		b6=new JButton("일상데이트");
+		b7=new JButton("소개팅");
+		b8=new JButton("점심식사");
+		b9=new JButton("야외테라스");
+	 */
+		}else if(e.getSource()==b3) {
+			cp.tp.thema="가족외식";
+			System.out.println("가족외식");
+			cp.card.show(cp, "THEMA");
+		}else if(e.getSource()==b4) {
+			cp.tp.thema="전통 한국 음식";
+			cp.card.show(cp, "THEMA");
+		}else if(e.getSource()==b5) {
+			cp.tp.thema="외국 현지 음식";
+			cp.card.show(cp, "THEMA");
+		}else if(e.getSource()==b6) {
+			cp.tp.thema="일상데이트";
+			cp.card.show(cp, "THEMA");
+		}else if(e.getSource()==b7) {
+			cp.tp.thema="소개팅";
+			cp.card.show(cp, "THEMA");
+		}else if(e.getSource()==b8) {
+			cp.tp.thema="점심식사";
+			cp.card.show(cp, "THEMA");
+		}else if(e.getSource()==b9) {
+			cp.tp.thema="야외테라스";
+			cp.card.show(cp, "THEMA");
+		}else if(e.getSource()==b10) {
+			cp.tp.thema="특별한 날엔";
+			cp.card.show(cp, "THEMA");
 		}
 	}
 }

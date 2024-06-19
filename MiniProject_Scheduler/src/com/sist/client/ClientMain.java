@@ -131,7 +131,7 @@ public void actionPerformed(ActionEvent e) {
 	{
 		cp.card.show(cp, "HP");
 	}else if(e.getSource()==mp.finddBtn) {
-		cp.card.show(cp, "FP");
+		cp.card.show(cp, "FIND");
 	}else if(e.getSource()==jp.b1)// 아이디 중복 체크 
 	{
 		idfrm.tf.setText("");
