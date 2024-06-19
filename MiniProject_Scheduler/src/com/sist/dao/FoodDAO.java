@@ -42,7 +42,7 @@ public class FoodDAO {
 			// 1. 연결
 			getConnection();
 			// 2. SQL 문장
-			String sql="SELECT CEIL(COUNT(*)/20.0) FROM FOOD_MENU_HOUSE";
+			String sql="SELECT CEIL(COUNT(*)/10.0) FROM FOOD_MENU_HOUSE";
 			// 오라클로 전송
 			ps=conn.prepareStatement(sql);
 			// 4. sql문장 실행 결과를 가지고 온다 => 실행 결과를 저장 (ResultSet)
@@ -66,14 +66,18 @@ public class FoodDAO {
 		ArrayList<FoodVO> list=new ArrayList<FoodVO>();
 		try {
 			getConnection();
-			String sql="SELECT name,poster,type,score,num "
-					 + "FROM (SELECT name,poster,type,score,rownum as num "
-					 + "FROM (SELECT name,poster,type,score "
+			String sql="SELECT name,poster,type,score,num,address "
+					 + "FROM (SELECT name,poster,type,score,rownum as num,address "
+					 + "FROM (SELECT name,poster,type,score,address "
 					 + "FROM food_menu_house "
 					 + "ORDER BY score DESC)) "
-					 + "WHERE num<?";
+					 + "WHERE num BETWEEN ? AND ?";
 			ps=conn.prepareStatement(sql);
-			ps.setInt(1, page);
+			int rowSize=10;
+			int start=(rowSize*page)-(rowSize-1);
+			int end=rowSize*page;
+			ps.setInt(1, start);
+			ps.setInt(2, end);
 			ResultSet rs=ps.executeQuery();
 			while(rs.next()) {
 				FoodVO vo=new FoodVO();
@@ -82,6 +86,7 @@ public class FoodDAO {
 				vo.setType(rs.getString(3));
 				vo.setScore(rs.getDouble(4));
 				vo.setNo(rs.getInt(5));
+				vo.setAddress(rs.getString(6));
 				list.add(vo);
 			}
 			rs.close();
