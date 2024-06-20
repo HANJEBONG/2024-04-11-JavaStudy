@@ -1,5 +1,6 @@
 package com.sist.client;
 
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,7 +22,7 @@ public class FindPanel extends JPanel {
 	ControlPanel cp;
 	JButton b1,b2;
 	JLabel pageLa=new JLabel(" 0 page / 0 pages");
-	JLabel themeLa;
+	JLabel la1,findLa;
 	int curpage=1;
 	int totalpage=0;
 	public FindPanel(ControlPanel cp) {
@@ -69,9 +70,14 @@ public class FindPanel extends JPanel {
 			else if(i==4)
 				column.setPreferredWidth(180);
 		}
-		themeLa=new JLabel("검색결과");
-		themeLa.setBounds(300,100,100,50);
-		add(themeLa);
+		la1=new JLabel("검색결과");
+		findLa=new JLabel();
+		la1.setFont(new Font("맑은 고딕",Font.BOLD,30));
+		findLa.setFont(new Font("맑은 고딕",Font.BOLD,30));
+		la1.setBounds(175,70,200,100);
+		findLa.setBounds(175,50,400,50);
+		add(la1);
+		add(findLa);
 		b1=new JButton("이전");
 		b2=new JButton("다음");
 		JPanel p=new JPanel();

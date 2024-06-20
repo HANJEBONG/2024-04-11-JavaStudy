@@ -68,7 +68,8 @@ public class ThemaPanel extends JPanel implements ActionListener{
 				column.setPreferredWidth(180);
 		}
 		themeLa=new JLabel();
-		themeLa.setBounds(300,100,100,50);
+		themeLa.setFont(new Font("맑은 고딕",Font.BOLD,40));
+		themeLa.setBounds(475,50,500,100);
 		add(themeLa);
 		b1=new JButton("이전");
 		b2=new JButton("다음");

@@ -269,6 +269,7 @@ public class FoodHousePanel extends JPanel implements ActionListener,MouseListen
 				JOptionPane.showMessageDialog(this, "검색결과가 없습니다");
 				return;
 			}
+			cp.fp.findLa.setText(find);
 			cp.fp.totalpage=dao.findTotalPage(find);
 			cp.fp.print(find);
 			cp.card.show(cp, "FIND");
