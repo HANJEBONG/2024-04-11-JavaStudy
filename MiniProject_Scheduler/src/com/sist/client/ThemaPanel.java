@@ -29,7 +29,7 @@ public class ThemaPanel extends JPanel implements ActionListener{
 		
 		setLayout(null);
 		String[] col= {"","상호","업종","지역","테마"};
-		Object[][] row=new Object[0][4];
+		Object[][] row=new Object[0][5];
 		
 		model=new DefaultTableModel(row,col) {
 			@Override
@@ -67,7 +67,7 @@ public class ThemaPanel extends JPanel implements ActionListener{
 			else if(i==4)
 				column.setPreferredWidth(180);
 		}
-		themeLa=new JLabel("짜장면");
+		themeLa=new JLabel();
 		themeLa.setBounds(300,100,100,50);
 		add(themeLa);
 		b1=new JButton("이전");
@@ -85,10 +85,10 @@ public class ThemaPanel extends JPanel implements ActionListener{
 		
 	}
 	public void themaprint(String thema) {
-		for(int i=cp.tp.model.getRowCount()-1;i>=0;i--) {
-			cp.tp.model.removeRow(i);
+		for(int i=model.getRowCount()-1;i>=0;i--) {
+			model.removeRow(i);
 		};
-		ArrayList<FoodVO> list=dao.foodThemaListData(cp.tp.curpage, thema);
+		ArrayList<FoodVO> list=dao.foodThemaListData(curpage, thema);
 		for(FoodVO vo:list) {
 			try {
 				URL url=new URL("https://www.menupan.com"+vo.getPoster());

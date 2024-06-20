@@ -30,6 +30,7 @@ public class FoodHousePanel extends JPanel implements ActionListener,MouseListen
 	int curpage=1;
 	int totalpage=5;
 	String thema;
+	String find;
 	
 	public FoodHousePanel(ControlPanel cp) {
 		dao=FoodDAO.newInstance();
@@ -134,6 +135,7 @@ public class FoodHousePanel extends JPanel implements ActionListener,MouseListen
 		b8.addActionListener(this);
 		b9.addActionListener(this);
 		b10.addActionListener(this);
+		b11.addActionListener(this);
 		p.setBounds(220,650,750,700);
 		add(p);
 		print();
@@ -209,63 +211,68 @@ public class FoodHousePanel extends JPanel implements ActionListener,MouseListen
 		}
 		else if(e.getSource()==b3) {
 			thema="가족외식";
-			cp.tp.themaprint(thema);
+			cp.tp.themeLa.setText(thema);
 			cp.tp.totalpage=dao.findFoodTotalPage(thema);
+			cp.tp.themaprint(thema);
 			cp.card.show(cp, "THEMA");
 			cp.tp.themaprint(thema);
 		}else if(e.getSource()==b4) {
 			thema="전통 한국 음식";
-			cp.tp.themaprint(thema);
+			cp.tp.themeLa.setText(thema);
 			cp.tp.totalpage=dao.findFoodTotalPage(thema);
+			cp.tp.themaprint(thema);
 			cp.card.show(cp, "THEMA");
 		}else if(e.getSource()==b5) {
 			thema="외국 현지 음식";
-			cp.tp.themaprint(thema);
+			cp.tp.themeLa.setText(thema);
 			cp.tp.totalpage=dao.findFoodTotalPage(thema);
+			cp.tp.themaprint(thema);
 			cp.card.show(cp, "THEMA");
 		}else if(e.getSource()==b6) {
 			thema="일상데이트";
-			cp.tp.themaprint(thema);
+			cp.tp.themeLa.setText(thema);
 			cp.tp.totalpage=dao.findFoodTotalPage(thema);
+			cp.tp.themaprint(thema);
 			cp.card.show(cp, "THEMA");
 		}else if(e.getSource()==b7) {
 			thema="소개팅";
-			cp.tp.themaprint(thema);
+			cp.tp.themeLa.setText(thema);
 			cp.tp.totalpage=dao.findFoodTotalPage(thema);
+			cp.tp.themaprint(thema);
 			cp.card.show(cp, "THEMA");
 		}else if(e.getSource()==b8) {
 			thema="점심식사";
-			cp.tp.themaprint(thema);
+			cp.tp.themeLa.setText(thema);
 			cp.tp.totalpage=dao.findFoodTotalPage(thema);
+			cp.tp.themaprint(thema);
 			cp.card.show(cp, "THEMA");
 		}else if(e.getSource()==b9) {
 			thema="야외테라스";
-			cp.tp.themaprint(thema);
+			cp.tp.themeLa.setText(thema);
 			cp.tp.totalpage=dao.findFoodTotalPage(thema);
+			cp.tp.themaprint(thema);	
 			cp.card.show(cp, "THEMA");
 		}else if(e.getSource()==b10) {
 			thema="특별한 날엔";
-			cp.tp.themaprint(thema);
+			cp.tp.themeLa.setText(thema);
 			cp.tp.totalpage=dao.findFoodTotalPage(thema);
+			cp.tp.themaprint(thema);		
 			cp.card.show(cp, "THEMA");
-		}else if(e.getSource()==cp.tp.b1) {
-			try {
-			if(cp.tp.curpage>1) {
-				cp.tp.curpage--;
-				cp.tp.themaprint(thema);
-				System.out.println(thema);
-				System.out.println(cp.tp.totalpage);
-				System.out.println(cp.tp.curpage);
+		}else if(e.getSource()==b11) {
+			find=findTf.getText();
+			if(find.length()<1) {
+				JOptionPane.showMessageDialog(this, "검색을 입력해주세요");
+				return;
 			}
-			}catch(Exception ex) {
-				ex.printStackTrace();
+			List<FoodVO> list=dao.foodFindData(1, find);
+			if(list.size()<1) {
+				JOptionPane.showMessageDialog(this, "검색결과가 없습니다");
+				return;
 			}
-		}else if(e.getSource()==cp.tp.b2) {
-			if(cp.tp.curpage<totalpage) {
-				cp.tp.curpage++;
-				cp.tp.themaprint(thema);
-			}
-	
+			cp.fp.totalpage=dao.findTotalPage(find);
+			cp.fp.print(find);
+			cp.card.show(cp, "FIND");
+			
 		}
 		
 	}

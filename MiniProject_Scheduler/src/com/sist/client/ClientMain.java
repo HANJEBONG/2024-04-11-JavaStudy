@@ -83,6 +83,10 @@ public ClientMain()
 	mp.homeBtn.addActionListener(this);
 	mp.finddBtn.addActionListener(this);
 	cp.chatP.tf.addActionListener(this);
+	cp.tp.b1.addActionListener(this);
+	cp.tp.b2.addActionListener(this);
+	cp.fp.b1.addActionListener(this);
+	cp.fp.b2.addActionListener(this);
 	
 }
 public static void main(String[] args) {
@@ -389,6 +393,41 @@ public void actionPerformed(ActionEvent e) {
 			ex.printStackTrace();
 			
 		}
+	}
+	else if(e.getSource()==cp.tp.b1) {
+		try {
+		if(cp.tp.curpage>1) {
+			cp.tp.curpage--;
+			cp.tp.themaprint(cp.hp.thema);
+			System.out.println(cp.hp.thema);
+			System.out.println(cp.tp.totalpage);
+			System.out.println(cp.tp.curpage);
+		}
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}else if(e.getSource()==cp.tp.b2) {
+		if(cp.tp.curpage<cp.tp.totalpage) {
+			cp.tp.curpage++;
+			cp.tp.themaprint(cp.hp.thema);
+		}
+
+	}
+	else if(e.getSource()==cp.fp.b1) {
+		try {
+		if(cp.fp.curpage>1) {
+			cp.fp.curpage--;
+			cp.fp.print(cp.hp.find);
+		}
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}else if(e.getSource()==cp.fp.b2) {
+		if(cp.fp.curpage<cp.fp.totalpage) {
+			cp.fp.curpage++;
+			cp.fp.print(cp.hp.find);
+		}
+
 	}
 }
 @Override
