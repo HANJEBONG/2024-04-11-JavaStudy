@@ -21,6 +21,7 @@ public class HomePanel extends JPanel implements ActionListener,MouseListener{
 	// 데이터 베이스 연동
 	GoodsDAO dao;
 	ControlPanel cp;
+	String myId;
 	// 초기화
 	public HomePanel(ControlPanel cp) {
 		this.cp=cp;

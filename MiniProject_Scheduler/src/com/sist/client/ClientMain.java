@@ -30,7 +30,7 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener,R
     PostFindFrame post=new PostFindFrame();// 우편번호 검색 
     IdCheckFrame idfrm=new IdCheckFrame();
     
-    ControlPanel cp=new ControlPanel();
+    ControlPanel cp;
     MenuPanel mp=new MenuPanel();
     // 네트워크에 필요한 객체
     Socket s; // 통신기기 => 핸드폰 
@@ -46,6 +46,7 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener,R
     String myId;
 public ClientMain()
 {
+	cp=new ControlPanel(this);
 	setLayout(null);
 	
 	mp.setBounds(25, 168, 100, 450);

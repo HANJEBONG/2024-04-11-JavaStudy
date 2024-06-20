@@ -3,14 +3,16 @@ import javax.swing.*;
 import java.awt.*;
 public class ControlPanel extends JPanel{
 	CardLayout card=new CardLayout();
-	HomePanel hp;
+	FoodHousePanel hp;
 	ChatPanel chatP=new ChatPanel();
 	FindPanel fp;
 	ThemaPanel tp;
-	public ControlPanel() {
+	ClientMain cMain;
+	public ControlPanel(ClientMain cm) {
+		cMain=cm;
 		setBackground(Color.CYAN);
 		setLayout(card);
-		hp=new HomePanel(this);
+		hp=new FoodHousePanel(this);
 		tp=new ThemaPanel(this);
 		fp=new FindPanel(this);
 		add("HP",hp);

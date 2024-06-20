@@ -13,7 +13,7 @@ public class GoodsDetailPanel extends JPanel implements ActionListener, ItemList
 	JLabel pLa,tLa;
 	ControlPanel cp; // 화면 이동
 	GoodsDAO dao;
-	int no=0;
+	int gno=0;
 	public GoodsDetailPanel(ControlPanel cp) {
 		dao=GoodsDAO.newInstance();
 		this.cp=cp;
@@ -62,7 +62,8 @@ public class GoodsDetailPanel extends JPanel implements ActionListener, ItemList
 		box.addItem(7);
 		box.setBounds(470,230,200,30);
 		add(box);
-		
+		 
+		 b1.addActionListener(this);
 		 b2.addActionListener(this);
 		 box.addItemListener(this);
 
@@ -70,6 +71,8 @@ public class GoodsDetailPanel extends JPanel implements ActionListener, ItemList
 	}
 	public void print(int no) {
 		// 1.오라클에서 값을 받는다
+
+		gno=no;
 		GoodsVO vo=dao.goodsDetailData(no);
 		try {
 			URL url=new URL(vo.getGoods_poster());
@@ -110,6 +113,21 @@ public class GoodsDetailPanel extends JPanel implements ActionListener, ItemList
 		// TODO Auto-generated method stub
 		if(e.getSource()==b2) {
 			cp.card.show(cp, "HP");
+		}else if(e.getSource()==b1) {
+			CartVO vo=new CartVO();
+			vo.setGno(gno);
+			String id=cp.cMain.myId;
+			vo.setId(id);
+			int account=box.getSelectedIndex()+1;
+			vo.setAccount(account);
+			String price=tLa.getText();
+			price=price.replaceAll("[^0-9]", "");
+			vo.setPrice(Integer.parseInt(price));
+			
+			dao.cartInsert(vo);
+			JOptionPane.showMessageDialog(this, "장바구니에 추가되었습니다\n마이페이지에서 확인해주세요");
+			// 이동 => 마이페이지
+			//cp.card.show(cp, price);
 		}
 	}
 }

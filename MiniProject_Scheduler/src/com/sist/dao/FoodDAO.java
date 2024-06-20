@@ -62,6 +62,33 @@ public class FoodDAO {
 		}
 		return total;
 	}
+	public int findFoodTotalPage(String find) {
+		int total=0;
+		try {
+			// 1. 연결
+			getConnection();
+			// 2. SQL 문장
+			String sql="SELECT CEIL(COUNT(*)/10.0) FROM FOOD_MENU_HOUSE "
+					+ "WHERE theme LIKE '%"+find+"%'";
+			// 오라클로 전송
+			ps=conn.prepareStatement(sql);
+			// 4. sql문장 실행 결과를 가지고 온다 => 실행 결과를 저장 (ResultSet)
+			ResultSet rs=ps.executeQuery();
+			// 5. 커서위치를 데이터가 출력된 첫번째 위치로 변경
+			rs.next();
+			total=rs.getInt(1);
+			// 6. 메모리를 닫는다
+			// 쉬운 프로그램은 모든 개발자가 동일한 코딩 (표준화) => 패턴이 한개
+			// -------- 라이브러리 (MyBatis) => Spring
+			rs.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}finally {
+			disConnection();
+		}
+		return total;
+	}
 	public ArrayList<FoodVO> foodScoreListData(int page){
 		
 		ArrayList<FoodVO> list=new ArrayList<FoodVO>();
@@ -106,8 +133,8 @@ public class FoodDAO {
 			String sql="SELECT name,poster,type,num,address,fno,theme "
 					 + "FROM (SELECT name,poster,type,score,address,fno,theme,rownum as num "
 					 + "FROM (SELECT name,poster,type,score,address,fno,theme "
-					 + "FROM food_menu_house)) "
-					 + "WHERE theme LIKE '%"+thema+"%' AND num BETWEEN ? AND ?";
+					 + "FROM food_menu_house WHERE theme LIKE '%"+thema+"%')) "
+					 + "WHERE num BETWEEN ? AND ?";
 			ps=conn.prepareStatement(sql);
 			int rowSize=10;
 			int start=(rowSize*page)-(rowSize-1);
@@ -124,6 +151,7 @@ public class FoodDAO {
 				vo.setAddress(rs.getString(5));
 				vo.setFno(rs.getInt(6));
 				vo.setTheme(rs.getString(7));
+
 				list.add(vo);
 			}
 			rs.close();
@@ -134,4 +162,5 @@ public class FoodDAO {
 		}
 		return list;
 	}
+	
 }

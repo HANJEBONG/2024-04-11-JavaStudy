@@ -11,9 +11,12 @@ public class ControlPanel extends JPanel{
 	BoardDetailPanel bdp;
 	BoardDeletePanel bdelp;
 	BoardUpdatePanel bup;
+	MypagePanel mpp;
 	FindPanel fp;
+	ClientMain cMain;
 	
-	public ControlPanel() {
+	public ControlPanel(ClientMain cm) {
+		cMain=cm;
 		setBackground(Color.CYAN);
 		setLayout(card);
 		hp=new HomePanel(this);
@@ -24,6 +27,7 @@ public class ControlPanel extends JPanel{
 		bdp=new BoardDetailPanel(this);
 		bdelp=new BoardDeletePanel(this);
 		bup=new BoardUpdatePanel(this);
+		mpp=new MypagePanel(this);
 		add("HP",hp);
 		add("CHAT",chatP);
 		add("DP",dp);
@@ -33,5 +37,6 @@ public class ControlPanel extends JPanel{
 		add("DETAIL",bdp);
 		add("DELETE",bdelp);
 		add("UPDATE",bup);
+		add("MYPAGE",mpp);
 	}
 }

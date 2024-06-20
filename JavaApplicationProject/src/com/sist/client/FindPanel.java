@@ -17,6 +17,7 @@ public class FindPanel extends JPanel implements ActionListener,MouseListener{
 	GoodsDAO dao;
 	ControlPanel cp;
 	TableColumn column;
+	String myId;
 	public FindPanel(ControlPanel cp) {
 		dao=GoodsDAO.newInstance();
 		this.cp=cp;

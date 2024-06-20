@@ -27,7 +27,7 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener,R
     PostFindFrame post=new PostFindFrame();// 우편번호 검색 
     IdCheckFrame idfrm=new IdCheckFrame();
     
-    ControlPanel cp=new ControlPanel();
+    ControlPanel cp;
     MenuPanel mp=new MenuPanel();
     // 네트워크에 필요한 객체
     Socket s; // 통신기기 => 핸드폰 
@@ -43,9 +43,10 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener,R
     String myId;
     public ClientMain()
     {
+    	cp=new ControlPanel(this);
     	setLayout(null);
     	
-    	mp.setBounds(300, 15, 600, 35);
+    	mp.setBounds(200, 15, 700, 35);
     	add(mp);
     	cp.setBounds(10, 60, 930, 580);
     	add(cp);
@@ -77,10 +78,14 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener,R
     	mp.exitBtn.addActionListener(this);
     	mp.chatBtn.addActionListener(this);
     	mp.homeBtn.addActionListener(this);
-    	mp.finddBtn.addActionListener(this);
+    	mp.findBtn.addActionListener(this);
     	mp.boardBtn.addActionListener(this);
+    	mp.myBtn.addActionListener(this);
     	
     	cp.chatP.tf.addActionListener(this);
+    	cp.chatP.b1.addActionListener(this);
+    	cp.chatP.sendTf.addActionListener(this);
+    	cp.chatP.ob.addActionListener(this);
     	
     }
 	public static void main(String[] args) {
@@ -99,8 +104,19 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener,R
 			dispose();// window메모리 해제 
 			System.exit(0);// 프로그램 종료
 		}
-		else if(e.getSource()==mp.boardBtn) {
-			cp.card.show(cp, "LIST");
+		// 마이 페이지
+		else if(e.getSource()==mp.myBtn)
+		{
+			cp.mpp.print();
+			cp.card.show(cp, "MYPAGE");
+		}
+		else if(e.getSource()==mp.boardBtn)
+		{
+			cp.card.show(cp, "LIST");// <a href="list.jsp">
+		}
+		else if(e.getSource()==mp.findBtn)
+		{
+			cp.card.show(cp, "FP");
 		}
 		else if(e.getSource()==cp.chatP.tf)
 		{
@@ -110,10 +126,10 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener,R
 			
 			String color=cp.chatP.box1.getSelectedItem().toString();
 			
-			try
-			{
-				out.write((Function.CHAT+"|"+msg+"|"+color+"\n").getBytes());
-			}catch(Exception ex){}
+			  try
+			  {
+				 out.write((Function.CHAT+"|"+msg+"|"+color+"\n").getBytes());
+			  }catch(Exception ex){}
 			
 			cp.chatP.tf.setText("");
 			cp.chatP.tf.requestFocus();
@@ -125,16 +141,45 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener,R
 				out.write((Function.EXIT+"|\n").getBytes());
 			}catch(Exception ex){}
 		}
+		else if(e.getSource()==cp.chatP.b1)
+		{
+			String you=cp.chatP.box2.getSelectedItem().toString();
+			if(!you.equals("상담자"))
+			{
+			  try
+			  {
+				  out.write((Function.ONEINIT+"|"+you+"|"+myId+"\n").getBytes());
+			  }catch(Exception ex){}
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(this, "상담자를 선택하세요!!");
+			}
+		}
+		else if(e.getSource()==cp.chatP.sendTf)
+		{
+			String youId=cp.chatP.youTf.getText();
+			String message=cp.chatP.sendTf.getText();
+			if(message.length()<1)
+				return;
+			
+			try
+			{
+				out.write((Function.ONETOONE+"|"+youId+"|"+message+"\n").getBytes());
+			}catch(Exception ex) {}
+			cp.chatP.sendTf.setText("");
+			cp.chatP.sendTf.requestFocus();
+		}
 		else if(e.getSource()==mp.chatBtn)
 		{
 			cp.card.show(cp, "CHAT");
 		}
 		else if(e.getSource()==mp.homeBtn)
 		{
+			cp.hp.myId=myId;
 			cp.card.show(cp, "HP");
-		}else if(e.getSource()==mp.finddBtn) {
-			cp.card.show(cp, "FP");
-		}else if(e.getSource()==jp.b1)// 아이디 중복 체크 
+		}
+		else if(e.getSource()==jp.b1)// 아이디 중복 체크 
 		{
 			idfrm.tf.setText("");
 			idfrm.b2.setVisible(false);
@@ -374,7 +419,7 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener,R
 					try
 					{
 						//1. 소켓 => 전화 걸기 
-						s=new Socket("192.168.0.102",12345); // 조별 
+						s=new Socket("192.168.0.104",11010); // 조별 
 						out=s.getOutputStream();
 						System.out.println("id="+id);
 						in=new BufferedReader(new InputStreamReader(s.getInputStream()));
@@ -455,8 +500,10 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener,R
 					  
 					  if(!myId.equals(data[0]) && admin.equals("y"))
 					  {
-						  cp.chatP.box2.addItem(data[0]);
+						     
+						     cp.chatP.box2.addItem(data[0]);
 					  }
+					  
 					  
 				  }
 				  break;
@@ -464,6 +511,11 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener,R
 				  {
 					  myId=st.nextToken();
 					  String name=st.nextToken();
+					  String admin=st.nextToken();
+					  if(admin.equals("y"))
+					  {
+						  cp.chatP.b1.setEnabled(false);
+					  }
 					  setTitle(name+"님의 채팅창");
 					  lp.setVisible(false);
 					  setVisible(true);
@@ -478,11 +530,46 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener,R
 					  cp.chatP.append(message, color);
 				  }
 				  break;
+				  // 상담 
+				  case Function.ONEINIT:
+				  {
+					  String userId=st.nextToken();
+					  int sel=JOptionPane.showConfirmDialog(this,userId+"님이 상담을 요청하셨습니다",
+							  "상담요청",JOptionPane.YES_NO_OPTION);
+					  if(sel==JOptionPane.YES_OPTION)
+					  {
+						  out.write((Function.ONEYES+"|"+userId+"\n").getBytes());
+					  }
+					  else
+					  {
+						  out.write((Function.ONENO+"|"+userId+"\n").getBytes());
+					  }
+				  }
+				  break;
+				  case Function.ONENO:
+				  {
+					  String adminId=st.nextToken();
+					  JOptionPane.showMessageDialog(this, adminId+"님이 거절하셨습니다");
+				  }
+				  break;
+				  case Function.ONEYES:
+				  {
+					  String id=st.nextToken();
+					  cp.chatP.youTf.setText(id);
+					  cp.chatP.pane.setVisible(true);
+				  }
+				  break;
+				  case Function.ONETOONE:
+				  {
+					 cp.chatP.ta.append(st.nextToken()+"\n"); 
+				  }
+				  break;
 				  case Function.MYEXIT:
 				  {
 					  System.exit(0);
 				  }
 				  break;
+				  
 				  case Function.EXIT:
 				  {
 					  String yid=st.nextToken();

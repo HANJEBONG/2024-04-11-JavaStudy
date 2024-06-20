@@ -1,5 +1,6 @@
 package com.sist.dao;
 import java.util.*;
+import java.util.Date;
 import java.sql.*;
 /*
  * 	1. JDBC (자바에서 데이터베이스 연결하는 라이브러리) => java.sql
@@ -244,6 +245,79 @@ public class GoodsDAO {
 			rs.close();
 		} catch (Exception e) {
 			// TODO: handle exception
+		}finally {
+			disConnection();
+		}
+		return list;
+	}
+	// 구매 => INSERT , UPDATE , DELETE
+	/*
+	 *  private int cno,gno,price,account;
+	private String id;
+	private Date regdate;
+	private GoodsVO gvo=new GoodsVO();
+	 */
+	public void cartInsert(CartVO vo) {
+		try {
+			getConnection();
+			String sql="INSERT INTO cart(cno,gno,id,price,account) "
+					+ "VALUES(cart_cno_seq.nextval,?,?,?,?)";
+			ps=conn.prepareStatement(sql);
+			ps.setInt(1, vo.getGno());
+			ps.setString(2, vo.getId());
+			ps.setInt(3, vo.getPrice());
+			ps.setInt(4, vo.getAccount());
+			
+			ps.executeUpdate();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}finally {
+			disConnection();
+		}
+	}
+	public void cartCancel(int cno) {
+		try {
+			getConnection();
+			String sql="DELETE FROM cart "
+					+ "WHERE cno=?";
+			ps=conn.prepareStatement(sql);
+			ps.setInt(1, cno);
+			ps.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally {
+			disConnection();
+		}
+	}
+	public List<CartVO> cartSelect(String id){
+		List<CartVO> list=new ArrayList<CartVO>();
+		try {
+			getConnection();
+			String sql="SELECT cno,price,account,"
+					+ "(SELECT goods_poster FROM goods_all WHERE no=cart.gno),"
+					+ "(SELECT goods_name FROM goods_all WHERE no=cart.gno),"
+					+ "(SELECT goods_price FROM goods_all WHERE no=cart.gno) "
+					+ "FROM cart "
+					+ "WHERE id=?";
+			ps=conn.prepareStatement(sql);
+			ps.setString(1, id);
+			ResultSet rs=ps.executeQuery();
+			while(rs.next()) {
+				CartVO vo=new CartVO();
+				vo.setCno(rs.getInt(1));
+				vo.setPrice(rs.getInt(2));
+				vo.setAccount(rs.getInt(3));
+				vo.getGvo().setGoods_poster(rs.getString(4));
+				vo.getGvo().setGoods_name(rs.getString(5));
+				vo.getGvo().setGoods_price(rs.getString(6));
+				list.add(vo);
+			}
+			rs.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}finally {
 			disConnection();
 		}

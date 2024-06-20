@@ -19,12 +19,14 @@ public class ThemaPanel extends JPanel implements ActionListener{
 	ControlPanel cp;
 	JButton b1,b2;
 	JLabel pageLa=new JLabel(" 0 page / 0 pages");
+	JLabel themeLa;
 	int curpage=1;
 	int totalpage=0;
-	String thema;
 	public ThemaPanel(ControlPanel cp) {
+		
 		this.cp=cp;
 		dao=FoodDAO.newInstance();
+		
 		setLayout(null);
 		String[] col= {"","상호","업종","지역","테마"};
 		Object[][] row=new Object[0][4];
@@ -48,7 +50,7 @@ public class ThemaPanel extends JPanel implements ActionListener{
 		table.getTableHeader().setReorderingAllowed(false); // 컬럼 순서 변경 금지
 		table.setShowVerticalLines(false);// 버티칼 선만 지움
 		JScrollPane js=new JScrollPane(table);
-		js.setBounds(0,0,900,500);
+		js.setBounds(100,150,900,500);
 		add(js);
 		
 		for(int i=0;i<col.length;i++) {
@@ -65,7 +67,9 @@ public class ThemaPanel extends JPanel implements ActionListener{
 			else if(i==4)
 				column.setPreferredWidth(180);
 		}
-		
+		themeLa=new JLabel("짜장면");
+		themeLa.setBounds(300,100,100,50);
+		add(themeLa);
 		b1=new JButton("이전");
 		b2=new JButton("다음");
 		b1.addActionListener(this);
@@ -74,16 +78,17 @@ public class ThemaPanel extends JPanel implements ActionListener{
 		p.add(b1);
 		p.add(pageLa);
 		p.add(b2);
-		p.setBounds(220,650,750,700);
+		p.setBounds(400,675,350,50);
 		add(p);
-		themaprint(thema);
+		
 
 		
-	}public void themaprint(String thema) {
-		for(int i=model.getRowCount()-1;i>=0;i--) {
-			model.removeRow(i);
-		}
-		ArrayList<FoodVO> list=dao.foodThemaListData(curpage, thema);
+	}
+	public void themaprint(String thema) {
+		for(int i=cp.tp.model.getRowCount()-1;i>=0;i--) {
+			cp.tp.model.removeRow(i);
+		};
+		ArrayList<FoodVO> list=dao.foodThemaListData(cp.tp.curpage, thema);
 		for(FoodVO vo:list) {
 			try {
 				URL url=new URL("https://www.menupan.com"+vo.getPoster());
@@ -96,30 +101,17 @@ public class ThemaPanel extends JPanel implements ActionListener{
 						vo.getTheme()
 				};
 				model.addRow(obj);
-				totalpage=vo.getNo();
 				pageLa.setText(curpage+" page / "+totalpage+" pages");
 			} catch (Exception e2) {
 				// TODO: handle exception
 				e2.printStackTrace();
 			}
 		}
-		
 	}
+		
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getSource()==b1) {
-			if(curpage>1) {
-				curpage--;
-				themaprint();
-			
-			}
-		}else if(e.getSource()==b2) {
-			if(curpage<totalpage) {
-				curpage++;
-				themaprint();
-			}
-	
-		}
+		
 	}
 }
