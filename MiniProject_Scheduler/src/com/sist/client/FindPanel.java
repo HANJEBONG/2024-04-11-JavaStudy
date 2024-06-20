@@ -10,7 +10,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import com.sist.commons.imageChange;
+import com.sist.commons.ImageChange;
 import com.sist.dao.FoodDAO;
 import com.sist.dao.FoodVO;
 
@@ -19,13 +19,13 @@ public class FindPanel extends JPanel {
 	DefaultTableModel model;
 	TableColumn column;
 	FoodDAO dao;
-	ControlPanel cp;
+	ControllPanel cp;
 	JButton b1,b2;
 	JLabel pageLa=new JLabel(" 0 page / 0 pages");
 	JLabel la1,findLa;
 	int curpage=1;
 	int totalpage=0;
-	public FindPanel(ControlPanel cp) {
+	public FindPanel(ControllPanel cp) {
 		
 		this.cp=cp;
 		dao=FoodDAO.newInstance();
@@ -102,7 +102,7 @@ public class FindPanel extends JPanel {
 				for(FoodVO vo:list) {
 					try {
 						URL url=new URL("https://www.menupan.com"+vo.getPoster());
-						Image img=imageChange.getImage(new ImageIcon(url), 70, 70);
+						Image img=ImageChange.getImage(new ImageIcon(url), 70, 70);
 						Object[] obj= {
 								new ImageIcon(img),
 								vo.getName(),

@@ -3,7 +3,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import com.sist.commons.imageChange;
+import com.sist.commons.ImageChange;
 import com.sist.dao.*;
 
 
@@ -23,7 +23,7 @@ public class FoodHousePanel extends JPanel implements ActionListener,MouseListen
 	DefaultTableModel model;
 	JButton b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11;
 	FoodDAO dao;
-	ControlPanel cp;
+	ControllPanel cp;
 	TableColumn column;
 	JLabel pageLa,la1;
 	JTextField findTf;
@@ -32,7 +32,7 @@ public class FoodHousePanel extends JPanel implements ActionListener,MouseListen
 	String thema;
 	String find;
 	
-	public FoodHousePanel(ControlPanel cp) {
+	public FoodHousePanel(ControllPanel cp) {
 		dao=FoodDAO.newInstance();
 		this.cp=cp;
 		setLayout(null);
@@ -149,7 +149,7 @@ public class FoodHousePanel extends JPanel implements ActionListener,MouseListen
 		for(FoodVO vo:list) {
 			try {
 				URL url=new URL("https://www.menupan.com"+vo.getPoster());
-				Image img=imageChange.getImage(new ImageIcon(url), 70, 70);
+				Image img=ImageChange.getImage(new ImageIcon(url), 70, 70);
 				Object[] obj= {
 						vo.getNo(),
 						new ImageIcon(img),

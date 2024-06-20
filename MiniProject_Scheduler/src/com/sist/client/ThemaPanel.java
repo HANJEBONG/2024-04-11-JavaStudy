@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import com.sist.commons.imageChange;
+import com.sist.commons.ImageChange;
 import com.sist.dao.FoodDAO;
 import com.sist.dao.FoodVO;
 
@@ -16,13 +16,13 @@ public class ThemaPanel extends JPanel implements ActionListener{
 	DefaultTableModel model;
 	TableColumn column;
 	FoodDAO dao;
-	ControlPanel cp;
+	ControllPanel cp;
 	JButton b1,b2;
 	JLabel pageLa=new JLabel(" 0 page / 0 pages");
 	JLabel themeLa;
 	int curpage=1;
 	int totalpage=0;
-	public ThemaPanel(ControlPanel cp) {
+	public ThemaPanel(ControllPanel cp) {
 		
 		this.cp=cp;
 		dao=FoodDAO.newInstance();
@@ -93,7 +93,7 @@ public class ThemaPanel extends JPanel implements ActionListener{
 		for(FoodVO vo:list) {
 			try {
 				URL url=new URL("https://www.menupan.com"+vo.getPoster());
-				Image img=imageChange.getImage(new ImageIcon(url), 70, 70);
+				Image img=ImageChange.getImage(new ImageIcon(url), 70, 70);
 				Object[] obj= {
 						new ImageIcon(img),
 						vo.getName(),
