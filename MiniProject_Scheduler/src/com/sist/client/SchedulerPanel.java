@@ -4,6 +4,9 @@ import javax.swing.*;
 import javax.swing.table.*;
 
 import com.sist.client.Add_Schedule;
+import com.sist.dao.BoardVO;
+import com.sist.dao.CalendarDAO;
+import com.sist.dao.CalendarVO;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -29,12 +32,15 @@ public class SchedulerPanel extends JPanel implements ActionListener {
     int day;
     JTextArea infoArea;
     JLabel dateLabel, timeLabel, titleLabel;
+    CalendarDAO dao;
+    String myId;
 
-       
-    public SchedulerPanel(ControllPanel cp) {
-       this.day = day;
-       
-       setFont(new Font("맑은 고딕", Font.BOLD, 35));
+    	
+    public SchedulerPanel(ControllPanel cp, int day) {
+    	this.day = day;
+    
+    	
+    	setFont(new Font("맑은 고딕", Font.BOLD, 35));
 
         // 패널을 사용하여 모든 컴포넌트를 담기
         setLayout(null);
@@ -57,7 +63,7 @@ public class SchedulerPanel extends JPanel implements ActionListener {
         etc2 = new JLabel("일");
 
         // JComboBox에 항목 추가
-        String[] hours = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
+        String[] hours = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
         String[] minutes = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"};
 
         for (String hour : hours) {
@@ -77,7 +83,7 @@ public class SchedulerPanel extends JPanel implements ActionListener {
         add(Tf);
 
         Ll.setBounds(30, 205, 80, 25);
-        Lf.setBounds(90, 205, 250, 25);
+        Lf.setBounds(90, 205, 200, 25);
         add(Ll);
         add(Lf);
 
@@ -103,13 +109,14 @@ public class SchedulerPanel extends JPanel implements ActionListener {
         p.setBounds(100, 500, 200, 100);
         add(p);
 
-        b1.addActionListener(this);
+        //b1.addActionListener(this);
         //b2.addMouseListener(this);
         
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // 사용자가 입력한 내용 가져오기
+                /*
+            	// 사용자가 입력한 내용 가져오기
                 String title = Tf.getText();
                 String location = Lf.getText();
                 String hour = (String) DateB.getSelectedItem();
@@ -124,10 +131,51 @@ public class SchedulerPanel extends JPanel implements ActionListener {
                 
              // 일정을 저장하는 메서드 호출
                 saveSchedule(title, location, hour, minute, detail);
+                */
+            	if(e.getSource() == b1) {
+    				String title = Tf.getText();
+    				if(title.length() < 1) {
+    					Tf.requestFocus();
+    					return;
+    				}
+    				String place = Lf.getText(); 
+    				if(place.length() < 1) {
+    					Lf.requestFocus();
+    					return;
+    				}
+    				String content = DetailA.getText(); 
+    				if(content.length() < 1) {
+    					DetailA.requestFocus();
+    					return;
+    				}
+    				String Day1 = DateB.getSelectedItem().toString();
+    				String Day2 = DateB2.getSelectedItem().toString();
+    				String day = Day1 + Day2;
+    				
+    				
+    				// 데이터를 모아서 DAO 로 전송
+    				CalendarVO vo = new CalendarVO();
+    				vo.setTitle(title);
+    				vo.setDay(day);
+    				vo.setPlace(place);
+    				vo.setContent(content);
+    				vo.setUserId(myId);
+    				
+    				
+    				dao.calendarInsert(vo);
+    				
+    				// 이동
+    				
+    				cp.card.show(cp,"SP"); 
+    				
+    			}
+    		}
                 
-            }
         });
 
+        
+        
+        
 
         currentCalendar = new GregorianCalendar();
         initializeComponents();
@@ -283,19 +331,19 @@ public class SchedulerPanel extends JPanel implements ActionListener {
     }
 
     private void arrangeComponents() {
-        titleLa.setBounds(215, 25, 620, 50); // 타이틀 텍스트 위치와 크기 설정
+        titleLa.setBounds(415, 25, 620, 50); // 타이틀 텍스트 위치와 크기 설정
         add(titleLa);
 
         searchBtn.setBounds(1070, 95, 90, 40); // 검색 버튼 위치와 크기 설정
         add(searchBtn);
 
-        prevBtn.setBounds(320, 95, 90, 40); // 이전 버튼 위치와 크기 설정
+        prevBtn.setBounds(520, 95, 90, 40); // 이전 버튼 위치와 크기 설정
         add(prevBtn);
 
-        nextBtn.setBounds(630, 95, 90, 40); // 다음 버튼 위치와 크기 설정
+        nextBtn.setBounds(830, 95, 90, 40); // 다음 버튼 위치와 크기 설정
         add(nextBtn);
 
-        monthLabel.setBounds(400, 35, 250, 150); // 월 정보 표시 라벨 위치와 크기 설정
+        monthLabel.setBounds(600, 35, 250, 150); // 월 정보 표시 라벨 위치와 크기 설정
         add(monthLabel);
 
         JScrollPane js = new JScrollPane(table);
@@ -416,10 +464,10 @@ public class SchedulerPanel extends JPanel implements ActionListener {
     }
 
 
-   @Override
-   public void actionPerformed(ActionEvent e) {
-      // TODO Auto-generated method stub
-      if (b1 == e.getSource()) {
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if (b1 == e.getSource()) {
             String title = Tf.getText();
             if (title.length() < 1) {
                 JOptionPane.showMessageDialog(this, "제목을 입력하세요.");
@@ -437,5 +485,5 @@ public class SchedulerPanel extends JPanel implements ActionListener {
                 
             }
         }
-   }
+	}
 }

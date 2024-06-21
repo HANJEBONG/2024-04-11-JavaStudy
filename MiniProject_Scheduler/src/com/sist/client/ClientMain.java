@@ -28,7 +28,7 @@ public class ClientMain extends JFrame implements ActionListener, MouseListener,
 	PostFindFrame post = new PostFindFrame();// 우편번호 검색
 	IdCheckFrame idfrm = new IdCheckFrame();
 
-	ControllPanel cp = new ControllPanel();
+	ControllPanel cp;
 	MenuPanel mp = new MenuPanel();
 	// 네트워크에 필요한 객체
 	Socket s; // 통신기기 => 핸드폰
@@ -41,9 +41,12 @@ public class ClientMain extends JFrame implements ActionListener, MouseListener,
 	// 개인마다 필요한 변수
 	String myId;
 
-	public ClientMain() {
+	public ClientMain(ControllPanel cp) {
+		this.cp=cp;
+		cp=new ControllPanel(this);
+		myId=cp.sp.myId;
 		setLayout(null);
-
+		
 		mp.setBounds(25, 168, 100, 450);
 	      add(mp);
 	    cp.setBounds(150, 0, 1186, 718);
@@ -365,7 +368,7 @@ public class ClientMain extends JFrame implements ActionListener, MouseListener,
 						System.out.println("id=" + id);
 						in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 						out.write((Function.LOGIN + "|" + id + "\n").getBytes());
-
+						
 					} catch (Exception ex) {
 						ex.printStackTrace();
 					}
@@ -377,6 +380,7 @@ public class ClientMain extends JFrame implements ActionListener, MouseListener,
 				ex.printStackTrace();
 
 			}
+			
 		}
 	}
 

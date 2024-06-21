@@ -19,7 +19,7 @@ public class MypagePanel extends JPanel implements ActionListener,MouseListener{
 	JTable table;
 	DefaultTableModel model;
 	ControllPanel cp;
-	BoardDAO dao;
+	CalendarDAO dao;
 	TableColumn column;
 	
 	JLabel namela, idla, introla, tablela;
@@ -34,7 +34,7 @@ public class MypagePanel extends JPanel implements ActionListener,MouseListener{
 	
 	public MypagePanel (ControllPanel cp) {
 		this.cp=cp;
-		dao = BoardDAO.newInstance();
+		dao = CalendarDAO.newInstance();
 		
 		// b1 = new JButton("새글"); // <input type=button value ="새글">
 		prevB = new JButton("이전");
@@ -43,7 +43,7 @@ public class MypagePanel extends JPanel implements ActionListener,MouseListener{
 		//titleLa = new JLabel("예약확인", JLabel.CENTER);// <table>
 		//titleLa.setFont(new Font("맑은 고딕", Font.BOLD, 30)); // <h3></h3>
 
-		String[] col = { "예약번호", "식당이름", "날짜", "시간", "인원수"};// <tr><th></th> ....</tr>
+		String[] col = { "번호", "일정제목", "날짜", "위치", "내용"};// <tr><th></th> ....</tr>
 		String[][] row = new String[0][5]; // 한 줄에 5개 데이터를 첨부
 		model = new DefaultTableModel(row, col) {
 
@@ -90,7 +90,7 @@ public class MypagePanel extends JPanel implements ActionListener,MouseListener{
 		p.add(pageLa);
 		p.add(nextB);
 
-		p.setBounds(558, 660, 250, 30);
+		p.setBounds(583, 660, 200, 30);
 		add(p);
 		print();
 		
@@ -131,7 +131,7 @@ public class MypagePanel extends JPanel implements ActionListener,MouseListener{
 	        introScroll.setBounds(250, 180, 866, 200);
 	        add(introScroll);
 
-	        tablela = new JLabel("나의 일정 : ");
+	        tablela = new JLabel("일정 : ");
 	        tablela.setBounds(180, 400, 80, 30);
 	        add(tablela);
 	        
@@ -155,16 +155,16 @@ public class MypagePanel extends JPanel implements ActionListener,MouseListener{
 			model.removeRow(i);
 		}
 		// 2. 데이터 읽기
-		List<BoardVO> list = dao.boardListData(curpage);
-		totalpage = dao.boardTotalPage();
+		List<CalendarVO> list = dao.calendarListData(curpage);
+		totalpage = dao.CalendarTotalPage();
 		
-		for(BoardVO vo : list) {
+		for(CalendarVO vo : list) {
 			String[] data = {
-					String.valueOf(vo.getNo()),
-					vo.getSubject(),
-					vo.getName(),
-					vo.getRegdate().toString(),
-					String.valueOf(vo.getHit())
+					String.valueOf(vo.getTitle()),
+					vo.getPlace(),
+					vo.getContent(),
+					vo.getDay(),
+					vo.getUserId()
 			};
 			model.addRow(data);
 			
@@ -194,7 +194,7 @@ public class MypagePanel extends JPanel implements ActionListener,MouseListener{
 	            int row = table.getSelectedRow();
 	            String no = model.getValueAt(row, 0).toString();
 	            // 데이터를 출력
-	            cp.bdp.print(Integer.parseInt(no));
+	            cp.sdetp.print(Integer.parseInt(no));
 	            // 이동
 	            cp.card.show(cp, "DETAIL");
 	         }
@@ -213,6 +213,7 @@ public class MypagePanel extends JPanel implements ActionListener,MouseListener{
 	public void mouseExited(MouseEvent e) {
 	}
 }
+
 
 
 
