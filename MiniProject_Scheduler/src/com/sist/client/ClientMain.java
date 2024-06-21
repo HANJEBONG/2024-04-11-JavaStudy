@@ -41,10 +41,10 @@ public class ClientMain extends JFrame implements ActionListener, MouseListener,
 	// 개인마다 필요한 변수
 	String myId;
 
-	public ClientMain(ControllPanel cp) {
-		this.cp=cp;
+	public ClientMain() {
+
 		cp=new ControllPanel(this);
-		myId=cp.sp.myId;
+		
 		setLayout(null);
 		
 		mp.setBounds(25, 168, 100, 450);
@@ -83,6 +83,7 @@ public class ClientMain extends JFrame implements ActionListener, MouseListener,
 		mp.boardBtn.addActionListener(this);
 		mp.myBtn.addActionListener(this);
 		mp.rankBtn.addActionListener(this);
+		
 		cp.tp.b1.addActionListener(this);
 		cp.tp.b2.addActionListener(this);
 		cp.fp.b1.addActionListener(this);
@@ -106,7 +107,9 @@ public class ClientMain extends JFrame implements ActionListener, MouseListener,
 		if (e.getSource() == lp.cancelBtn) {
 			dispose();// window메모리 해제
 			System.exit(0);// 프로그램 종료
-		}else if(e.getSource()==cp.tp.b1) {
+		}
+		
+		else if(e.getSource()==cp.tp.b1) {
 			try {
 				if(cp.tp.curpage>1) {
 					cp.tp.curpage--;
@@ -147,6 +150,7 @@ public class ClientMain extends JFrame implements ActionListener, MouseListener,
 			cp.card.show(cp, "FHP");
 		}
 		else if (e.getSource() == mp.myBtn) {
+			cp.my.print();
 			cp.card.show(cp, "MY");
 		}
 		else if (e.getSource() == mp.boardBtn) {

@@ -40,10 +40,10 @@ public class CalendarDAO {
 		List<CalendarVO> list = new ArrayList<CalendarVO>();
 		try {
 			getConnection();
-			String sql = "SELECT title, place, day, content, userId, num "
-					+"FROM (SELECT title, place, day, content, userId, rownum as num "
-					+"FROM (SELECT title, place, day, content, userId "
-					+"FROM schedule ORDER BY day DESC))"
+			String sql = "SELECT title, place, day, content, userId, num , no "
+					+"FROM (SELECT title, place, day, content, userId, rownum as num, no "
+					+"FROM (SELECT title, place, day, content, userId , no "
+					+"FROM schedule ORDER BY no DESC))"
 					+"WHERE num BETWEEN ? AND ?";
 			
 			ps = conn.prepareStatement(sql);
@@ -64,6 +64,7 @@ public class CalendarDAO {
 				vo.setDay(rs.getString(3));
 				vo.setContent(rs.getString(4));
 				vo.setUserId(rs.getString(5));
+				vo.setNo(rs.getInt(7));
 				list.add(vo);
 			}
 			rs.close();
@@ -108,8 +109,8 @@ public class CalendarDAO {
 			 USERID  NOT NULL VARCHAR2(4000)
 			 */
 			// 2. 오라클로 보낼 SQL 문장
-			String sql = "INSERT INTO schedule(title, place, day, content, userId) "
-					+ "VALUES(?,?,?,?,?) ";
+			String sql = "INSERT INTO schedule(title, place, day, content, userId , no) "
+					+ "VALUES(?,?,?,?,?,(SELECT MAX(no)+1 FROM schedule)) ";
 			
 			ps = conn.prepareStatement(sql);
 			
@@ -118,7 +119,6 @@ public class CalendarDAO {
 			ps.setString(3,vo.getDay());
 			ps.setString(4, vo.getContent());
 			ps.setString(5, vo.getUserId());
-			
 			ps.executeUpdate();
 	
 		}catch(Exception ex) {
@@ -134,14 +134,15 @@ public class CalendarDAO {
 		CalendarVO vo = new CalendarVO();
 		try {
 			getConnection();
+			/*
 			String sql = "UPDATE calendar SET "
-					+"WHERE no =? ";
+					+"WHERE no = ?";
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, no);
 			ps.executeUpdate();
-			
+			*/
 			// 데이터 읽기 
-			sql = "SELECT title, place, day, content, userId "
+			String sql = "SELECT title, place, day, content, userId , no"
 					+"FROM schedule "
 					+"WHERE no=? ";
 			
@@ -154,6 +155,7 @@ public class CalendarDAO {
 			vo.setDay(rs.getString(3));
 			vo.setContent(rs.getString(4));
 			vo.setUserId(rs.getString(5));
+			vo.setNo(rs.getInt(6));
 			rs.close();
 		}catch(Exception ex) {
 			ex.printStackTrace();
@@ -203,6 +205,7 @@ public class CalendarDAO {
 			ps.setString(2, vo.getPlace());
 			ps.setString(3, vo.getDay());
 			ps.setString(4, vo.getContent());
+			ps.setInt(5, vo.getNo());
 			
 			ps.executeUpdate();
 			
@@ -214,12 +217,13 @@ public class CalendarDAO {
 		}
 	}
 	
-	public void calendarDelete(CalendarVO vo) {
+	public void calendarDelete(int no) {
 		try {
 			getConnection();
 			String sql = "DELETE FROM schedule "
-					+ "WHERE no =? ";
+					+ "WHERE no=? ";
 			ps = conn.prepareStatement(sql);
+			ps.setInt(1, no);
 			ps.executeUpdate();
 		}catch(Exception ex) {
 			ex.printStackTrace();

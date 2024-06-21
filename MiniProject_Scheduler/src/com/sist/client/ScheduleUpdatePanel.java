@@ -28,7 +28,6 @@ public class ScheduleUpdatePanel extends JPanel implements ActionListener{
 	    JButton b1,b2;
 	    ControllPanel cp;
 	    BoardDAO dao;
-	    int no = 0;
 	    */
 	    JLabel Tl, Ll, DetailL, DateL, etc, etc2;
 	    JTextField Tf, Lf;
@@ -36,6 +35,7 @@ public class ScheduleUpdatePanel extends JPanel implements ActionListener{
 	    JComboBox<String> DateB, DateB2;
 	    JButton b1, b2;
 	    int day;
+	    int no = 0;
 	    JTextArea infoArea;
 	    JLabel dateLabel, timeLabel, titleLabel;
 	    CalendarDAO dao;

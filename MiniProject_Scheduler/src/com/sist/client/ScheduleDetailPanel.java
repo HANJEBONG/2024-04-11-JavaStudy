@@ -52,14 +52,14 @@ public class ScheduleDetailPanel extends JPanel implements ActionListener{
 		add(Ll);
 		add(place);
 		
-		/*
+		
 		noLa = new JLabel("번호", JLabel.CENTER);
 		noLa.setBounds(120, 75, 80, 30);
 		no = new JLabel("", JLabel.CENTER);
 		no.setBounds(205, 75, 120, 30);
 		add(noLa);
 		add(no);
-		*/
+		
 		
 		ta = new JTextArea();
 		ta.setEditable(true); // 비활성화
@@ -84,10 +84,10 @@ public class ScheduleDetailPanel extends JPanel implements ActionListener{
 	}
 	public void print(int no) {
 	      CalendarVO vo = dao.calendarDetailData(no);
-	      //this.no.setText(String.valueOf(vo.getNo()));
+	      this.no.setText(String.valueOf(vo.getNo()));
 	      sub.setText(vo.getTitle());
 	      place.setText(vo.getPlace());
-	      day.setText(vo.getDay().toString());
+	      day.setText(vo.getDay());
 	      ta.setText(vo.getContent());
 	   }
 	@Override
@@ -101,7 +101,7 @@ public class ScheduleDetailPanel extends JPanel implements ActionListener{
 	    	  
 	    	  CalendarVO vo = dao.calendarUpdateData(Integer.parseInt(no.getText()));
 	    	  
-	    	  //cp.bup.no = vo.getNo();
+	    	  cp.sup.no = vo.getNo();
 	    	  cp.sp.Tf.setText(vo.getTitle());
 	    	  cp.sp.Lf.setText(vo.getPlace());
 	    	  cp.sp.DetailA.setText(vo.getContent());

@@ -33,10 +33,12 @@ public class SchedulerPanel extends JPanel implements ActionListener {
     JTextArea infoArea;
     JLabel dateLabel, timeLabel, titleLabel;
     CalendarDAO dao;
-    String myId;
+    ControllPanel cp;
 
     	
     public SchedulerPanel(ControllPanel cp, int day) {
+    	this.cp=cp;
+    	dao=CalendarDAO.newInstance();
     	this.day = day;
     
     	
@@ -109,69 +111,10 @@ public class SchedulerPanel extends JPanel implements ActionListener {
         p.setBounds(100, 500, 200, 100);
         add(p);
 
-        //b1.addActionListener(this);
+        b1.addActionListener(this);
         //b2.addMouseListener(this);
         
-        b1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                /*
-            	// 사용자가 입력한 내용 가져오기
-                String title = Tf.getText();
-                String location = Lf.getText();
-                String hour = (String) DateB.getSelectedItem();
-                String minute = (String) DateB2.getSelectedItem();
-                String detail = DetailA.getText();
-                
-                // 콘솔에 사용자가 입력한 내용 출력
-                System.out.println("제목: " + title);
-                System.out.println("위치: " + location);
-                System.out.println("날짜: " + hour + "월 " + minute + "일");
-                System.out.println("메모: " + detail);
-                
-             // 일정을 저장하는 메서드 호출
-                saveSchedule(title, location, hour, minute, detail);
-                */
-            	if(e.getSource() == b1) {
-    				String title = Tf.getText();
-    				if(title.length() < 1) {
-    					Tf.requestFocus();
-    					return;
-    				}
-    				String place = Lf.getText(); 
-    				if(place.length() < 1) {
-    					Lf.requestFocus();
-    					return;
-    				}
-    				String content = DetailA.getText(); 
-    				if(content.length() < 1) {
-    					DetailA.requestFocus();
-    					return;
-    				}
-    				String Day1 = DateB.getSelectedItem().toString();
-    				String Day2 = DateB2.getSelectedItem().toString();
-    				String day = Day1 + Day2;
-    				
-    				
-    				// 데이터를 모아서 DAO 로 전송
-    				CalendarVO vo = new CalendarVO();
-    				vo.setTitle(title);
-    				vo.setDay(day);
-    				vo.setPlace(place);
-    				vo.setContent(content);
-    				vo.setUserId(myId);
-    				
-    				
-    				dao.calendarInsert(vo);
-    				
-    				// 이동
-    				
-    				cp.card.show(cp,"SP"); 
-    				
-    			}
-    		}
-                
-        });
+        cp.my.print();
 
         
         
@@ -467,23 +410,44 @@ public class SchedulerPanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if (b1 == e.getSource()) {
-            String title = Tf.getText();
-            if (title.length() < 1) {
-                JOptionPane.showMessageDialog(this, "제목을 입력하세요.");
-                return;
-            }
-            int result = JOptionPane.showConfirmDialog(this, "등록 하시겠습니까?", "확인", JOptionPane.YES_NO_OPTION);
-            if (result == JOptionPane.YES_OPTION) {
-                // 일정 등록 로직 추가
-                JOptionPane.showMessageDialog(this, "일정이 등록되었습니다.");
-            
-            }
-        } else if (b2 == e.getSource()) {
-            int result = JOptionPane.showConfirmDialog(this, "등록 취소하시겠습니까?", "확인", JOptionPane.YES_NO_OPTION);
-            if (result == JOptionPane.YES_OPTION) {
-                
-            }
-        }
+		
+		if(e.getSource() == cp.sp.b1) {
+			String title = cp.sp.Tf.getText();
+			if(title.length() < 1) {
+				cp.sp.Tf.requestFocus();
+				return;
+			}
+			String place = cp.sp.Lf.getText(); 
+			if(place.length() < 1) {
+				cp.sp.Lf.requestFocus();
+				return;
+			}
+			String content = cp.sp.DetailA.getText(); 
+			if(content.length() < 1) {
+				cp.sp.DetailA.requestFocus();
+				return;
+			}
+			String Day1 = cp.sp.DateB.getSelectedItem().toString();
+			System.out.println(Day1);
+			String Day2 = cp.sp.DateB2.getSelectedItem().toString();
+			String day = Day1 + Day2;
+			
+			
+			// 데이터를 모아서 DAO 로 전송
+			CalendarVO vo = new CalendarVO();
+			vo.setTitle(title);
+			vo.setDay(day);
+			vo.setPlace(place);
+			vo.setContent(content);
+			vo.setUserId(cp.cMain.myId);
+			System.out.println(cp.cMain.myId);
+			
+			cp.sp.dao.calendarInsert(vo);
+			
+			// 이동
+			
+ 
+			JOptionPane.showMessageDialog(this, "일정 등록 완료");
+		}
 	}
 }
