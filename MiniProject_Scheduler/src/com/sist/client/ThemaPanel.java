@@ -11,7 +11,7 @@ import com.sist.dao.FoodVO;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.URL;
-public class ThemaPanel extends JPanel implements ActionListener{
+public class ThemaPanel extends JPanel implements ActionListener,MouseListener{
 	JTable table;
 	DefaultTableModel model;
 	TableColumn column;
@@ -28,7 +28,7 @@ public class ThemaPanel extends JPanel implements ActionListener{
 		dao=FoodDAO.newInstance();
 		
 		setLayout(null);
-		String[] col= {"","상호","업종","지역","테마"};
+		String[] col= {"","상호","업종","지역","테마","fno"};
 		Object[][] row=new Object[0][5];
 		
 		model=new DefaultTableModel(row,col) {
@@ -46,6 +46,9 @@ public class ThemaPanel extends JPanel implements ActionListener{
 			
 		};
 		table=new JTable(model);
+		table.getColumn("fno").setWidth(0);
+		table.getColumn("fno").setMinWidth(0);
+		table.getColumn("fno").setMaxWidth(0);
 		table.setRowHeight(80);
 		table.getTableHeader().setReorderingAllowed(false); // 컬럼 순서 변경 금지
 		table.setShowVerticalLines(false);// 버티칼 선만 지움
@@ -82,6 +85,7 @@ public class ThemaPanel extends JPanel implements ActionListener{
 		p.setBounds(400,675,350,50);
 		add(p);
 		
+		table.addMouseListener(this);
 
 		
 	}
@@ -99,7 +103,8 @@ public class ThemaPanel extends JPanel implements ActionListener{
 						vo.getName(),
 						vo.getType(),
 						vo.getAddress(),
-						vo.getTheme()
+						vo.getTheme(),
+						vo.getFno()
 				};
 				model.addRow(obj);
 				pageLa.setText(curpage+" page / "+totalpage+" pages");
@@ -112,6 +117,39 @@ public class ThemaPanel extends JPanel implements ActionListener{
 		
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource()==table) {
+			if(e.getClickCount()==2) {
+				int row=table.getSelectedRow();
+				String no=model.getValueAt(row, 5).toString();
+
+				cp.dp.print(Integer.parseInt(no));
+				cp.card.show(cp, "DP");
+			}
+		}
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
