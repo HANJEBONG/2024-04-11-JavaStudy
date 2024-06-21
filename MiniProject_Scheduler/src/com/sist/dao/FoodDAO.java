@@ -226,5 +226,40 @@ public class FoodDAO {
 		}
 		return list;
 	}
-	
+	 public FoodVO foodDetailData(int fno) {
+	      FoodVO vo = new FoodVO();
+	      try {
+	         getConnection();
+	         // 조회수 증가
+	         String sql = "SELECT fno, poster, type, name, score, theme, price, time, phone, address, link "
+	                   + "FROM food_menu_house WHERE fno=?";
+	         ps = conn.prepareStatement(sql);
+	         // ?에 값을 채운다
+	           ps.setInt(1, fno);
+
+	         // 결과값
+	         ResultSet rs = ps.executeQuery();
+	         rs.next();
+	         // 값을 VO에 저장
+	         vo.setFno(rs.getInt(1));
+	         vo.setPoster(rs.getString(2));
+	         vo.setType(rs.getString(3));
+	         vo.setName(rs.getString(4));
+	         vo.setScore(rs.getDouble(5));
+	         vo.setTheme(rs.getString(6));
+	         vo.setPrice(rs.getString(7));
+	         vo.setTime(rs.getString(8));
+	         vo.setPhone(rs.getString(9));
+	         vo.setAddress(rs.getString(10));
+	         vo.setLink(rs.getString(11));
+	         
+	         rs.close();
+
+	      } catch (Exception ex) {
+	         ex.printStackTrace();
+	      } finally {
+	         disConnection();
+	      }
+	      return vo;
+	   }
 }

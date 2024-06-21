@@ -140,6 +140,7 @@ public class ClientMain extends JFrame implements ActionListener, MouseListener,
 			}
 		
 		else if(e.getSource() == mp.rankBtn) {
+			cp.fhp.findTf.setText("");
 			cp.card.show(cp, "FHP");
 		}
 		else if (e.getSource() == mp.myBtn) {

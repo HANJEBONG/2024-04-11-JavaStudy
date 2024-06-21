@@ -77,8 +77,8 @@ public class FoodHousePanel extends JPanel implements ActionListener,MouseListen
 		
 		////////////////////////////////////////////////////////// 테마
 		
-		String[] col= {"순위","","상호","업종","지역"};
-		Object[][] row=new Object[0][5];
+		String[] col= {"순위","","상호","업종","지역","fno"};
+		Object[][] row=new Object[0][6];
 		
 		model=new DefaultTableModel(row,col) {
 			@Override
@@ -95,6 +95,10 @@ public class FoodHousePanel extends JPanel implements ActionListener,MouseListen
 			
 		};
 		table=new JTable(model);
+		table.getColumn("fno").setWidth(0);
+		table.getColumn("fno").setMinWidth(0);
+		table.getColumn("fno").setMaxWidth(0);
+		//출처: https://blaseed.tistory.com/9 [양자심리학 권위자:티스토리]
 		table.setRowHeight(80);
 		table.getTableHeader().setReorderingAllowed(false); // 컬럼 순서 변경 금지
 		table.setShowVerticalLines(false);// 버티칼 선만 지움
@@ -136,6 +140,7 @@ public class FoodHousePanel extends JPanel implements ActionListener,MouseListen
 		b9.addActionListener(this);
 		b10.addActionListener(this);
 		b11.addActionListener(this);
+		table.addMouseListener(this);
 		p.setBounds(220,650,750,700);
 		add(p);
 		print();
@@ -156,6 +161,7 @@ public class FoodHousePanel extends JPanel implements ActionListener,MouseListen
 						vo.getName(),
 						vo.getType(),
 						vo.getAddress(),
+						vo.getFno()
 						
 				};
 				model.addRow(obj);
@@ -170,7 +176,15 @@ public class FoodHousePanel extends JPanel implements ActionListener,MouseListen
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+		if(e.getSource()==table) {
+			if(e.getClickCount()==2) {
+				int row=table.getSelectedRow();
+				String no=model.getValueAt(row, 5).toString();
+
+				cp.dp.print(Integer.parseInt(no));
+				cp.card.show(cp, "DP");
+			}
+		}
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {

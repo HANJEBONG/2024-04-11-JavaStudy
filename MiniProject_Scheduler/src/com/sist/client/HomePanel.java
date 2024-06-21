@@ -32,7 +32,7 @@ public class HomePanel extends JPanel implements ActionListener,MouseListener{
 		setLayout(null);
 
 		
-		String[] col= {"순위","","상호","업종","지역",};
+		String[] col= {"순위","","상호","업종","지역",""};
 		Object[][] row=new Object[0][5];
 		
 		model=new DefaultTableModel(row,col) {
@@ -69,6 +69,8 @@ public class HomePanel extends JPanel implements ActionListener,MouseListener{
 				column.setPreferredWidth(30);
 			else if(i==4)
 				column.setPreferredWidth(180);
+			else if(i==5)
+				column.setPreferredWidth(0);
 
 		}
 		pageLa=new JLabel(curpage+" page / "+totalpage+" pages");
@@ -101,6 +103,7 @@ public class HomePanel extends JPanel implements ActionListener,MouseListener{
 						vo.getName(),
 						vo.getType(),
 						vo.getAddress(),
+						vo.getFno()
 						
 				};
 				model.addRow(obj);

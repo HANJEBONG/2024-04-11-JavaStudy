@@ -511,7 +511,7 @@ public class ClientMain extends JFrame implements ActionListener,MouseListener,R
 				  {
 					  myId=st.nextToken();
 					  String name=st.nextToken();
-
+//					  String adim=st.nextToken();
 //					  if(admin.equals("y"))
 //					  {
 //						  cp.chatP.b1.setEnabled(false);
